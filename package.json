@@ -1,0 +1,25 @@
+{
+  "name": "new-year-danmaku2019",
+  "version": "0.1.0",
+  "description": "cuddly-telegram-newyear2019",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fakefred/cuddly-telegram-newyear2019.git"
+  },
+  "author": "fakefred",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fakefred/cuddly-telegram-newyear2019/issues"
+  },
+  "homepage": "https://github.com/fakefred/cuddly-telegram-newyear2019#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "http": "^0.0.0",
+    "socket.io": "^2.1.1"
+  }
+}
