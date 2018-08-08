@@ -52,12 +52,12 @@ app.get('/display', (req, res) => {
 app.post('/', (req, res) => {
     if (req.body.content !== '') {
         console.log(req.body);
+        dan[dan.length] = {
+            content: req.body.content,
+            color: req.body.color
+        };
     }
-    // incoming POST
-    dan[dan.length] = {
-        content: req.body.content,
-        color: req.body.color
-    };
+    
     res.sendFile(publicDir + 'client.html');
 });
 
@@ -66,7 +66,7 @@ io.of('/display').on('connection', socket => {
     let sendBullet = () => {
         let nextDan = dan[nextUnreadDanIndex];
         if (nextDan !== undefined && nextDan.content !== '') {
-            socket.volatile.emit('bullet', {
+            socket.emit('bullet', {
                 content: nextDan.content,
                 color: nextDan.color
             });
