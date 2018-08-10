@@ -26,19 +26,14 @@
 
 let express = require('express');
 let app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+let http = require('http').Server(app);
+let io = require('socket.io')(http);
 
 app.set('port', process.env.PORT || 2019);
 app.use(express.static(__dirname + '/public'));
 let publicDir = __dirname + '/public/';
 // this dep parses incoming POST req from client to JSON-like data format
 app.use(require('body-parser')());
-
-// this variable will hold all danmaku traffic data
-// array of json-like key-value pair objects
-let dan = [];
-let nextUnreadDanIndex = 0;
 
 app.get('/', (req, res) => {
     res.sendFile(publicDir + 'client.html');
@@ -49,31 +44,15 @@ app.get('/display', (req, res) => {
     res.sendFile(publicDir + 'display.html');
 });
 
-app.post('/', (req, res) => {
-    if (req.body.content !== '') {
-        console.log(req.body);
-        dan[dan.length] = {
-            content: req.body.content,
-            color: req.body.color
-        };
-    }
-    
-    res.sendFile(publicDir + 'client.html');
-});
-
 io.of('/display').on('connection', socket => {
-    console.log('client connected');
-    let sendBullet = () => {
-        let nextDan = dan[nextUnreadDanIndex];
-        if (nextDan !== undefined && nextDan.content !== '') {
-            socket.emit('bullet', {
-                content: nextDan.content,
-                color: nextDan.color
-            });
-            nextUnreadDanIndex ++;
-        }
-    };
-    setInterval(sendBullet, 2);
+    console.log('display connected');
+    io.on('connection', client => {
+        console.log('a client connected');
+        client.on('up', data => {
+            console.log(data);
+            socket.emit('bullet', data);
+        });
+    });
 });
 
 http.listen(2019, () => {
