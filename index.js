@@ -26,6 +26,7 @@
 
 let express = require('express');
 let app = express();
+// I don't know why, socket.io tutorial says that
 let http = require('http').Server(app);
 let io = require('socket.io')(http);
 
@@ -44,13 +45,35 @@ app.get('/display', (req, res) => {
     res.sendFile(publicDir + 'display.html');
 });
 
+// catches connection from /display, then catches io from clients.
+// this means if display refreshes, clients must refresh to establish a new connection.
 io.of('/display').on('connection', socket => {
     console.log('display connected');
     io.on('connection', client => {
         console.log('a client connected');
         client.on('up', data => {
-            console.log(data);
-            socket.emit('bullet', data);
+            if (data.content !== '') {
+                console.log(data);
+                //socket.emit('bullet', data);
+                // above: in case of server bottleneck, provided handler in display code
+                // below: server does calculation, display only handles UI
+                socket.emit('bullet', {
+                    content: data.content,
+                    color: data.color,
+                    position: data.position,
+                    y: Math.floor(Math.random() * windowHeight),
+                    speed: Math.random() * 3 + 1,
+                    size: data.size,
+                    frame: 0
+                });
+                /*
+                    above key-value pair explained:
+                    content, color, position, size are all fetched from DOM;
+                    y is for display y-axis;
+                    speed is display slide speed, or determines time stuck on top/bottom;
+                    frame is for render counting.
+                */
+            }
         });
     });
 });
@@ -58,3 +81,14 @@ io.of('/display').on('connection', socket => {
 http.listen(2019, () => {
     console.log('running on port 2019');
 });
+
+/* 
+    Storing code in a server means I can waste whatever amount of space I want.
+    I'm very happy about this.
+    Compressing code for client makes me mad.
+    Comments comments comments
+    Woooooooooooooooooooooooooooo
+    That's actually not much code.
+    Look above, at the license!
+    I love credit in code.
+*/
