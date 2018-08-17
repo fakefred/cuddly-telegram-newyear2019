@@ -8,12 +8,25 @@
 <body>
     <h1 id="title">CTNY2019</h1>
     <hr id="line">
-    <form action="/" method="POST">
-        <input name="content" autocomplete="off" autofocus="on"/><br/>
-        <input type="radio" name="color" value="blue" checked/><label for="blue">Blue</label>
-        <input type="radio" name="color" value="white"/><label for="white">White</label><br/>
-        <button type="submit">Submit</button>
-    </form>
+    
+    <input id="content" name="content" autocomplete="off" autofocus="on" maxlength="64"/><br/>
+    <br/>
+    <input id="white" type="radio" name="color" value="white" checked/><label for="white">White</label><br/>
+    <input id="blue" type="radio" name="color" value="blue"/><label for="blue">Blue</label><br/>
+    <input id="red" type="radio" name="color" value="white"/><label for="red">Red</label><br/>
+    <input id="green" type="radio" name="color" value="white"/><label for="green">Green</label><br/>
+    <input id="yellow" type="radio" name="color" value="white"/><label for="yellow">Yellow</label><br/>
+    <br/>
+    <input id="small" type="radio" name="size" value="small"/><label for="small">Small</label><br/>
+    <input id="medium" type="radio" name="size" value="medium" checked/><label for="medium">Medium</label><br/>
+    <input id="large" type="radio" name="size" value="large"/><label for="large">Large</label><br/>
+    <br/>
+    <input id="slide" type="radio" name="position" value="slide" checked/><label for="slide">Slide</label><br/>
+    <input id="top" type="radio" name="position" value="top"/><label for="top">Top</label><br/>
+    <input id="bottom" type="radio" name="position" value="bottom"/><label for="bottom">Bottom</label><br/>
+    <br>
+    <button id="submit" onclick="send()" type="submit">Submit</button>
+    
     <script type="application/javascript" src="./js/socket.io.dev.js"></script>
     <script type="application/javascript" src="./js/client.js"></script>
 </body>
