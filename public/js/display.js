@@ -7,8 +7,14 @@ canvas.width = windowWidth;
 canvas.height = windowHeight;
 
 let ctx = canvas.getContext('2d');
+// default: medium, white
 ctx.font = '30px Noto Sans';
 ctx.fillStyle = '#ffffff';
+// similar configurations
+ctx.shadowColor = '#666666';
+ctx.shadowBlur = 0;
+ctx.shadowOffsetX = 2;
+ctx.shadowOffsetY = 2;
 
 let bullets = [];
 
@@ -25,10 +31,38 @@ socket.on('bullet', data => {
     }
 });
 
+const sizeHash = {
+    small:  '20px Noto Sans',
+    medium: '30px Noto Sans',
+    large:  '40px Noto Sans'
+};
+
+// some colors are not yet implemented
+const colorHash = {
+    white : '#fff',
+    blue  : '#22f',
+    red   : '#f22',
+    green : '#2f2',
+    yellow: '#ff2',
+    pink  : '#f2f',
+    cyan  : '#2ff',
+    gray  : '#aaa'
+}
+
 let refreshFrame = () => {
-    ctx.clearRect(0, 0 ,windowWidth, windowHeight);
+    ctx.clearRect(0, 0, windowWidth, windowHeight);
     for (i = 0; i < bullets.length; i++) {
-        // development emergency stop
-        // start from here
+        let dan = bullets[i];
+        if (dan) {
+            ctx.font = sizeHash[dan.size];
+            ctx.fillStyle = colorHash[dan.color];
+            ctx.fillText(dan.content, windowWidth - dan.speed * dan.frame, dan.y);
+            dan.frame ++;
+            if (windowWidth - dan.speed * dan.frame >= windowWidth * 3 / 2) {
+                bullets[i] = undefined;
+            }
+        }
     }
 }
+
+setInterval(refreshFrame, 25);

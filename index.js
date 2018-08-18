@@ -54,25 +54,7 @@ io.of('/display').on('connection', socket => {
         client.on('up', data => {
             if (data.content !== '') {
                 console.log(data);
-                //socket.emit('bullet', data);
-                // above: in case of server bottleneck, provided handler in display code
-                // below: server does calculation, display only handles UI
-                socket.emit('bullet', {
-                    content: data.content,
-                    color: data.color,
-                    position: data.position,
-                    y: Math.floor(Math.random() * windowHeight),
-                    speed: Math.random() * 3 + 1,
-                    size: data.size,
-                    frame: 0
-                });
-                /*
-                    above key-value pair explained:
-                    content, color, position, size are all fetched from DOM;
-                    y is for display y-axis;
-                    speed is display slide speed, or determines time stuck on top/bottom;
-                    frame is for render counting.
-                */
+                socket.emit('bullet', data);
             }
         });
     });
