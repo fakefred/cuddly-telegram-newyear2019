@@ -45,6 +45,10 @@ app.get('/display', (req, res) => {
     res.sendFile(publicDir + 'display.html');
 });
 
+app.get('/debug', (req, res) => {
+    res.sendFile(publicDir + 'debug.html');
+});
+
 // catches connection from /display, then catches io from clients.
 // this means if display refreshes, clients must refresh to establish a new connection.
 io.of('/display').on('connection', socket => {
@@ -58,19 +62,15 @@ io.of('/display').on('connection', socket => {
             }
         });
     });
+    io.of('/debug', debug => {
+        console.log('debugging');
+        client.on('up', data => {
+            console.log(data);
+            socket.emit('bullet', data);
+        });
+    })
 });
 
 http.listen(2019, () => {
     console.log('running on port 2019');
 });
-
-/* 
-    Storing code in a server means I can waste whatever amount of space I want.
-    I'm very happy about this.
-    Compressing code for client makes me mad.
-    Comments comments comments
-    Woooooooooooooooooooooooooooo
-    That's actually not much code.
-    Look above, at the license!
-    I love credit in code.
-*/

@@ -20,12 +20,15 @@ let bullets = [];
 
 socket.on('bullet', data => {
     console.log(data);
+    if (data.from === 'debug'){
+        console.log(bullets.length);
+    }
     bullets[bullets.length] = {
         content: data.content,
         color: data.color,
         position: data.position,
         y: Math.floor(Math.random() * windowHeight),
-        speed: Math.random() * 3 + 1,
+        speed: Math.random() * 3 + 2,
         size: data.size,
         frame: 0
     }

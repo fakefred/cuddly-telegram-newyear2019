@@ -21,7 +21,8 @@ function send() {
         content: content,
         color: color,
         position: position,
-        size: size
+        size: size,
+        from: 'client'
     });
     //id++;
 }
