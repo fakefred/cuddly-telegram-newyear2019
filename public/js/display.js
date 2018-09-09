@@ -17,6 +17,7 @@ ctx.shadowOffsetX = 2;
 ctx.shadowOffsetY = 2;
 
 let bullets = [];
+let startFrom = 0;
 
 socket.on('bullet', data => {
     console.log(data);
@@ -54,7 +55,7 @@ const colorHash = {
 
 let refreshFrame = () => {
     ctx.clearRect(0, 0, windowWidth, windowHeight);
-    for (i = 0; i < bullets.length; i++) {
+    for (i = startFrom; i < bullets.length; i++) {
         let dan = bullets[i];
         if (dan) {
             ctx.font = sizeHash[dan.size];
@@ -63,6 +64,7 @@ let refreshFrame = () => {
             dan.frame ++;
             if (windowWidth - dan.speed * dan.frame >= windowWidth * 3 / 2) {
                 bullets[i] = undefined;
+                startFrom = i + 1;
             }
         }
     }
