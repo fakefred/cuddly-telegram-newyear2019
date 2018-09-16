@@ -62,3 +62,6 @@ typings/
 
 # JetBrains WebStorm
 .idea/
+
+# hashkeys
+# passwd.json
