@@ -30,6 +30,8 @@ let app = express();
 let http = require('http').Server(app);
 let io = require('socket.io')(http);
 
+const passwords = require('./passwd.json');
+
 app.set('port', process.env.PORT || 2019);
 app.use(express.static(__dirname + '/public'));
 let publicDir = __dirname + '/public/';
@@ -49,6 +51,10 @@ app.get('/debug', (req, res) => {
     res.sendFile(publicDir + 'debug.html');
 });
 
+app.get('/admin', (req, res) => {
+    res.sendFile(publicDir + 'admin.html');
+});
+
 // catches connection from /display, then catches io from clients.
 // this means if display refreshes, clients must refresh to establish a new connection.
 io.of('/display').on('connection', socket => {
@@ -62,13 +68,24 @@ io.of('/display').on('connection', socket => {
             }
         });
     });
-    io.of('/debug', debug => {
-        console.log('debugging');
-        client.on('up', data => {
-            console.log(data);
-            socket.emit('bullet', data);
+
+    io.of('/debug').on('connection', debug => {
+        debug.on('up', data => {
+            if (data.passwd === passwords.debug) {
+                console.debug(data);
+                socket.emit('bullet', data);
+            }
         });
-    })
+    });
+
+    io.of('/admin').on('connection', admin => {
+        admin.on('up', data => {
+            if (data.passwd === passwords.admin) {
+                console.debug(data);
+                socket.emit('bullet', data);
+            }
+        });
+    });
 });
 
 http.listen(2019, () => {

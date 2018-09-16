@@ -3,7 +3,7 @@ const canvas = document.getElementById('canvas');
 
 let windowWidth= window.innerWidth;
 let windowHeight = window.innerHeight;
-canvas.width = windowWidth;
+canvas.width = windowWidth - 8;
 canvas.height = windowHeight;
 
 let ctx = canvas.getContext('2d');
@@ -28,7 +28,7 @@ socket.on('bullet', data => {
         content: data.content,
         color: data.color,
         position: data.position,
-        y: Math.floor(Math.random() * windowHeight),
+        y: Math.floor(Math.random() * (windowHeight - 20) + 20),
         speed: Math.random() * 3 + 2,
         size: data.size,
         frame: 0
