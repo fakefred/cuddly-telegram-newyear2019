@@ -44,10 +44,10 @@ socket.on('bullet', data => {
 });
 
 const sizeHash = {
-    small:  '20px Noto Sans',
-    medium: '30px Noto Sans',
-    large:  '40px Noto Sans',
-    xlarge: '50px Noto Sans'
+    small:  '20px Noto Sans, Noto Color Emoji',
+    medium: '30px Noto Sans, Noto Color Emoji',
+    large:  '40px Noto Sans, Noto Color Emoji',
+    xlarge: '50px Noto Sans, Noto Color Emoji'
 };
 
 // some colors are not yet implemented
