@@ -16,7 +16,7 @@ const send = () => {
     // aoie = arrayOfInputElems
     let content = document.getElementById('content').value;
     let aoie = document.getElementsByTagName('input');
-    for (i = 0; i < aoie.length; i++) {
+    for (let i = 0; i < aoie.length; i++) {
         if (aoie[i].type === 'radio' && aoie[i].checked) {
             if (aoie[i].name === 'position') {
                 position = aoie[i].id;

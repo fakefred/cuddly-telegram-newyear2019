@@ -4,18 +4,25 @@
 </head>
 <body>
     <input id="passwd" type="password" autocomplete="off"/>
-    <button id="auth" onclick="authenticate()">Authenticate</button>
+    <button id="auth" autofocus="on" onclick="authenticate()">Authenticate</button>
     <br/><br/>
 
-    <input id="content" name="content" autocomplete="off" autofocus="on" maxlength="65536"/><br/>
+    <input id="content" name="content" autocomplete="off" maxlength="65536"/><br/>
 
     <br/><br/>
 
+    let quant = <input id="quant" value="0"/>;<br/>
+    let interval = <input id="interval" value="0"/>;<br/>
+    <button onclick="testAsDefined()">Test as Defined</button>
+
+    <br/><br/>
     <button onclick="simulTest(1)">One</button>
     <button onclick="simulTest(10)">Ten</button>
     <button onclick="simulTest(100)">Hundred</button>
     <button onclick="simulTest(1000)">Thousand</button>
     <br/><br/>
+    <button onclick="lapseTest(10, 100)">10, 100ms</button>
+    <button onclick="lapseTest(100, 100)">100, 100ms</button>
     <button onclick="lapseTest(10, 50)">10, 50ms</button>
     <button onclick="lapseTest(100, 50)">100, 50ms</button>
     <br/><br/>

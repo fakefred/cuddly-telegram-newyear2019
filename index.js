@@ -26,7 +26,6 @@
 
 let express = require('express');
 let app = express();
-// I don't know why, socket.io tutorial says that
 let http = require('http').Server(app);
 let io = require('socket.io')(http);
 
@@ -35,8 +34,6 @@ const passwords = require('./passwd.json');
 app.set('port', process.env.PORT || 2019);
 app.use(express.static(__dirname + '/public'));
 let publicDir = __dirname + '/public/';
-// this dep parses incoming POST req from client to JSON-like data format
-app.use(require('body-parser')());
 
 app.get('/', (req, res) => {
     res.sendFile(publicDir + 'client.html');
@@ -58,6 +55,7 @@ app.get('/admin', (req, res) => {
 // catches connection from /display, then catches io from clients.
 // this means if display refreshes, clients must refresh to establish a new connection.
 io.of('/display').on('connection', socket => {
+    let usersOnline = 0;
     console.log('display connected');
     io.on('connection', client => {
         console.log('a client connected');
