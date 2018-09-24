@@ -18,3 +18,5 @@ Online demo should be available on [http://autometalogolex.me:2019/display](http
 ### Development Ongoing: Check
 [Projects](https://github.com/fakefred/cuddly-telegram-newyear2019/projects/1?fullscreen=true)
 for details.
+
+You can use string `Unicode Test 😬🤣😇 万国码测试 ユニコウド　テスト` to test Unicode!
