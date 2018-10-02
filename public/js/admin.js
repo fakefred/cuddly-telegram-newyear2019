@@ -1,39 +1,38 @@
 const socket = io();
-
 let saltedPassword = '';
+let logs = document.getElementById('logs');
 
 const authenticate = () => {
     let password = document.getElementById('passwd').value;
     saltedPassword = sha256(password);
-}
+};
 
-
-let position = 'slide',
-    color    = 'white',
-    size     = 'medium';
+const positionHash = {
+    T: 'top',
+    B: 'bottom',
+    S: 'slide'
+};
 
 const send = () => {
-    // aoie = arrayOfInputElems
-    let content = document.getElementById('content').value;
-    let aoie = document.getElementsByTagName('input');
-    for (let i = 0; i < aoie.length; i++) {
-        if (aoie[i].type === 'radio' && aoie[i].checked) {
-            if (aoie[i].name === 'position') {
-                position = aoie[i].id;
-            } else if (aoie[i].name === 'color') {
-                color = aoie[i].id;
-            } else if (aoie[i].name === 'size') {
-                size = aoie[i].id;
-            }
-        }
-    }
-
     socket.emit('up', {
-        content,
-        color,
-        position,
-        size,
+        content: document.getElementById('content').value,
+        color: document.getElementById('color').value,
+        position: positionHash[document.getElementById('position').value],
+        size: document.getElementById('size').value,
         from: 'admin',
         passwd: saltedPassword
     });
 }
+
+const sendNotice = () => {
+    socket.emit('notice', {
+        content: document.getElementById('notice').value,
+        level: document.getElementById('level').value,
+        passwd: saltedPassword
+    });
+};
+
+//TODO: implement 'LOCK'
+const lock = () => {
+
+};

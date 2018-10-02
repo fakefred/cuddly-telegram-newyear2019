@@ -67,12 +67,12 @@ let refreshFrame = () => {
     for (i = startFrom; i < bullets.length; i++) {
         let dan = bullets[i];
         if (dan) {
-            ctx.font = sizeHash[dan.size];
-            ctx.fillStyle = colorHash[dan.color];
+            ctx.font = sizeHash[dan.size] || dan.size + 'px Noto Sans, Noto Color Emoji';
+            ctx.fillStyle = colorHash[dan.color] || '#' + dan.color;
             if (dan.position === 'slide') {
                 ctx.fillText(dan.content, windowWidth - dan.speed * dan.frame, dan.y);
                 dan.frame ++;
-                if (dan.speed * dan.frame > windowWidth + dan.width) {
+                if (dan.speed * dan.frame > windowWidth + dan.width + 120) {
                     bullets[i] = undefined;
                     startFrom ++;
                 }

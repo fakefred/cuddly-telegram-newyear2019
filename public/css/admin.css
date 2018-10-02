@@ -1,0 +1,67 @@
+body {
+    background-color: black;
+    color: limegreen;
+    font-family: 'Noto Mono', 'Hack', 'DejaVu Sans Mono', monospace;
+    font-size: 1em;
+}
+
+button {
+    border: 2px solid limegreen;
+    color: limegreen;
+    border-radius: 0px;
+    background-color: black;
+    font-family: 'Noto Mono', 'Hack', 'DejaVu Sans Mono', monospace;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+input, textarea {
+    background-color: black;
+    color: limegreen;
+    border: 2px solid limegreen;
+    font-family: 'Noto Mono', 'Hack', 'DejaVu Sans Mono', monospace;
+    font-size: 1em;
+}
+
+#passwd {
+    width: 19em;
+}
+
+#content {
+    height: 6em;
+    width: 27em;
+}
+
+#color {
+    width: 6em;
+}
+
+#position {
+    width: 1em;
+}
+
+#size {
+    width: 2em;
+}
+
+#notice {
+    width: 27em;
+    height: 3em;
+}
+
+#level {
+    width: 18em;
+}
+
+#logs {
+    position: absolute;
+    right: .5em;
+    top: .5em;
+    background-color: black;
+    color: limegreen;
+    border: 2px solid limegreen;
+    font-family: 'Noto Mono', 'Hack', 'DejaVu Sans Mono', monospace;
+    font-size: 1em;
+    width: 55em;
+    height: 30em;
+}

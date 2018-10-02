@@ -2,29 +2,22 @@
 <html>
 <head>
     <title>CTNY2019 Admin Console</title>
+    <link rel="stylesheet" href="css/admin.css"/>
 </head>
 <body>
-    <input id="passwd" type="password" autocomplete="off"/>
-    <button id="auth" onclick="authenticate()">Authenticate</button>
+    <input id="passwd" type="password" autocomplete="off" autofocus="on"/>
+    <button id="auth" onclick="authenticate()">AUTH</button>
+    <button id="lock" onclick="lock()">LOCK</button>
+    <strong id="access"></strong>
     <br/><br/>
-
-    <input id="content" name="content" autocomplete="off" autofocus="on" maxlength="64"/><br/>
-    <br/>
-    <input id="white" type="radio" name="color" value="white" checked/><label for="white">White</label><br/>
-    <input id="blue" type="radio" name="color" value="blue"/><label for="blue">Blue</label><br/>
-    <input id="red" type="radio" name="color" value="white"/><label for="red">Red</label><br/>
-    <input id="green" type="radio" name="color" value="white"/><label for="green">Green</label><br/>
-    <input id="yellow" type="radio" name="color" value="white"/><label for="yellow">Yellow</label><br/>
-    <br/>
-    <input id="small" type="radio" name="size" value="small"/><label for="small">Small</label><br/>
-    <input id="medium" type="radio" name="size" value="medium" checked/><label for="medium">Medium</label><br/>
-    <input id="large" type="radio" name="size" value="large"/><label for="large">Large</label><br/>
-    <br/>
-    <input id="slide" type="radio" name="position" value="slide" checked/><label for="slide">Slide</label><br/>
-    <input id="top" type="radio" name="position" value="top"/><label for="top">Top</label><br/>
-    <input id="bottom" type="radio" name="position" value="bottom"/><label for="bottom">Bottom</label><br/>
-    <br>
-    <button id="submit" onclick="send()" type="submit">Submit</button>
+    --------------- BULLET CONTROL ---------------<br/>
+    <textarea id="content" name="content"  autocomplete="off" maxlength="65536"></textarea>
+    <br/><br/>
+    COL  # <input id="color" name="color" autocomplete="off" maxlength="6"/>
+    POS  # <input id="position" name="position" autocomplete="off" maxlength="1"/>
+    SIZ  # <input id="size" name="size" autocomplete="off" maxlength="2"/>
+    <button id="submit" onclick="send()" type="submit"><b>LAUNCH</b></button>
+    <br/><br/>
 
     <script src="./js/socket.io.js"></script>
     <script src="./js/sha256.min.js"></script>

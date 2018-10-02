@@ -30,6 +30,7 @@ let http = require('http').Server(app);
 let io = require('socket.io')(http);
 
 const passwords = require('./passwd.json');
+// contains hashed passwds. prevents unwanted admins.
 
 app.set('port', process.env.PORT || 2019);
 app.use(express.static(__dirname + '/public'));
@@ -58,12 +59,17 @@ io.of('/display').on('connection', socket => {
     let usersOnline = 0;
     console.log('display connected');
     io.on('connection', client => {
-        console.log('a client connected');
+        usersOnline ++;
+        console.log('a client connected, current users online: ' + usersOnline);
         client.on('up', data => {
             if (data.content !== '') {
                 console.log(data);
                 socket.emit('bullet', data);
             }
+        });
+        client.on('disconnect', () => {
+            usersOnline --;
+            console.log('a client disconnected, current users online: ' + usersOnline);
         });
     });
 
@@ -79,6 +85,7 @@ io.of('/display').on('connection', socket => {
     io.of('/admin').on('connection', admin => {
         admin.on('up', data => {
             if (data.passwd === passwords.admin) {
+                // only approve authed admins
                 console.debug(data);
                 socket.emit('bullet', data);
             }
