@@ -59,7 +59,9 @@ const colorHash = {
     yellow: '#ff2',
     pink  : '#f2f',
     cyan  : '#2ff',
-    gray  : '#aaa'
+    gray  : '#aaa',
+    orange: '#f80',
+    violet: '#909',
 }
 
 let refreshFrame = () => {

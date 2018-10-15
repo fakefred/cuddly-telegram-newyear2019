@@ -1,0 +1,33 @@
+.dark-theme {
+    background-color: #222;
+    color: #ddd;
+}
+
+.light-theme {
+    background-color: #fff;
+    color: #222;
+}
+
+body {
+    font-family: 'Noto Sans', 'Roboto Sans', sans-serif;
+    font-size: 1em;
+    font-weight: lighter;
+    zoom: 3.6;
+}
+
+button {
+    border: transparent 0px solid;
+    border-radius: 5px;
+    height: 2.5em;
+    width: 6em;
+    background-color: darkviolet;
+    color: #eee;
+}
+
+#content {
+    width: 98%;
+    border: 0.04em solid transparent;
+    border-bottom-color: gray;
+    border-radius: 0px;
+    font-size: 1.1em;
+}

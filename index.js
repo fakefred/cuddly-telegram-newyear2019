@@ -30,7 +30,7 @@ let http = require('http').Server(app);
 let io = require('socket.io')(http);
 
 const passwords = require('./passwd.json');
-// contains hashed passwds. prevents unwanted admins.
+// contains hashed passwds. prevents unwanted admin access.
 
 app.set('port', process.env.PORT || 2019);
 app.use(express.static(__dirname + '/public'));
