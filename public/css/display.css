@@ -1,5 +1,7 @@
 body {
     background-color: black;
+    background-size: cover;
+    background-image: url("");
     color: white;
     font-size: 1.5em;
     font-family: 'Noto Sans', 'Helvetica', 'Roboto Sans', sans-serif;

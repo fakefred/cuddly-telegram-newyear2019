@@ -16,7 +16,7 @@ body {
 }
 
 button {
-    border: transparent 0px solid;
+    border: transparent 0 solid;
     border-radius: 5px;
     height: 2.5em;
     width: 6em;

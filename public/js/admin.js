@@ -1,10 +1,12 @@
 const socket = io();
 let saltedPassword = '';
-let logs = document.getElementById('logs');
 
-const authenticate = () => {
+const authenticate = validPeriod => {  // validPeriod in seconds
     let password = document.getElementById('passwd').value;
     saltedPassword = sha256(password);
+    password = undefined; // maybe generate a random string to confuse intruders?
+    setTimeout(lock, validPeriod * 1000 || 300000);
+    console.warn('PASSWORD HASH RECORDED');
 };
 
 const positionHash = {
@@ -22,17 +24,10 @@ const send = () => {
         from: 'admin',
         passwd: saltedPassword
     });
-}
-
-const sendNotice = () => {
-    socket.emit('notice', {
-        content: document.getElementById('notice').value,
-        level: document.getElementById('level').value,
-        passwd: saltedPassword
-    });
 };
 
 //TODO: implement 'LOCK'
 const lock = () => {
-
+    saltedPassword = undefined;
+    console.warn('ADMIN ACCESS LOCKED');
 };

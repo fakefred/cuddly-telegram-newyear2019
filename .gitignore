@@ -65,3 +65,6 @@ typings/
 
 # hashkeys
 # passwd.json
+
+# todo list
+.todo*.list*

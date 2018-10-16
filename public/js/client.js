@@ -3,7 +3,8 @@ var socket = io();
 
 function send() {
     // aoie = arrayOfInputElems
-    var content = document.getElementById('content').value;
+    var inputBar = document.getElementById('content');
+    var content = inputBar.value;
     var aoie = document.getElementsByTagName('input');
     for (i = 0; i < aoie.length; i++) {
         if (aoie[i].type === 'radio' && aoie[i].checked) {
@@ -24,5 +25,5 @@ function send() {
         size: size,
         from: 'client'
     });
-    //id++;
+    inputBar.value = '';
 }

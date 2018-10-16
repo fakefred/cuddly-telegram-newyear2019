@@ -1,5 +1,9 @@
 const socket = io.connect('/display');
 const canvas = document.getElementById('canvas');
+const body = document.getElementsByTagName('body')[0];
+
+body.style.backgroundColor = 'black';
+body.style.backgroundSize = 'cover';
 
 let windowWidth= window.innerWidth;
 let windowHeight = window.innerHeight;
@@ -85,6 +89,14 @@ let refreshFrame = () => {
             }
         }
     }
-}
+};
 
 setInterval(refreshFrame, 25);
+
+let dispImage = image => {
+    if (image !== '' && image !== undefined) {
+        body.style = 'background-image: url("/img/' + image + '"); background-size: cover;';
+    } else {
+        body.style = 'background-color: black;';
+    }
+};
