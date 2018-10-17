@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="css/admin.css"/>
 </head>
 <body>
+    --------------- AUTHENTICATION ----------------
     <input id="passwd" type="password" autocomplete="off" autofocus="on"/>
     <button id="auth" onclick="authenticate()">AUTH</button>
     <button id="lock" onclick="lock()">LOCK</button>
@@ -18,6 +19,8 @@
     SIZ  # <input id="size" name="size" autocomplete="off" maxlength="2"/>
     <button id="submit" onclick="send()" type="submit"><b>LAUNCH</b></button>
     <br/><br/>
+    ------------ PERFORMANCE CONTROL -------------<br/>
+    <!--TODO: toggle text shadow; diplay image; system stats; user count-->
 
     <script src="./js/socket.io.js"></script>
     <script src="./js/sha256.min.js"></script>

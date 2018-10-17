@@ -1,5 +1,12 @@
-// ES4 comptatible
+// ES4 compatible
 var socket = io();
+
+var content = document.getElementById('content');
+content.addEventListener('keyup', function (e) {
+    if (e.keyCode === 13) {
+        send();
+    }
+}, false);
 
 function send() {
     // aoie = arrayOfInputElems
