@@ -1,4 +1,4 @@
-const socket = io.connect('/display');
+const socket = io('/display');
 const canvas = document.getElementById('canvas');
 const body = document.getElementsByTagName('body')[0];
 
@@ -100,3 +100,19 @@ let dispImage = image => {
         body.style = 'background-color: black;';
     }
 };
+
+
+socket.on('ctrl', ctrl => {
+    console.debug('shadow');
+    if (!ctrl.shadow) {
+        ctx.shadowColor = undefined;
+        ctx.shadowBlur = undefined;
+        ctx.shadowOffsetX = undefined;
+        ctx.shadowOffsetY = undefined;
+    } else {
+        ctx.shadowColor = '#666666';
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetX = 2;
+        ctx.shadowOffsetY = 2;
+    }
+});

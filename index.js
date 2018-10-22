@@ -90,6 +90,12 @@ io.of('/display').on('connection', socket => {
                 socket.emit('bullet', data);
             }
         });
+        admin.on('ctrl', ctrl => {
+            if (ctrl.passwd === passwords.admin) {
+                console.debug('CTRL COMMAND RECEIVED, CONTENT: \n' + ctrl);
+                socket.emit('ctrl', ctrl);
+            }
+        });
     });
 });
 

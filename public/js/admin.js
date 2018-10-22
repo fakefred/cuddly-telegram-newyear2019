@@ -26,8 +26,18 @@ const send = () => {
     });
 };
 
-//TODO: implement 'LOCK'
 const lock = () => {
     saltedPassword = undefined;
-    console.warn('ADMIN ACCESS LOCKED');
+    console.warn('ADMIN ACCESS RESTRICTED');
+};
+
+// display control modules
+let shadowStatus = true;
+const toggleShadow = () => {
+    shadowStatus = !shadowStatus;
+    socket.emit('ctrl', {
+        shadow: shadowStatus,
+        passwd: saltedPassword
+    });
+    document.querySelector('#shadow').innerHTML = shadowStatus ? 'ON' : 'OFF';
 };

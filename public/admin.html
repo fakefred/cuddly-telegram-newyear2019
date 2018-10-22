@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="css/admin.css"/>
 </head>
 <body>
-    --------------- AUTHENTICATION ----------------
+    --------------- AUTHENTICATION ----------------<br/>
     <input id="passwd" type="password" autocomplete="off" autofocus="on"/>
     <button id="auth" onclick="authenticate()">AUTH</button>
     <button id="lock" onclick="lock()">LOCK</button>
@@ -21,6 +21,7 @@
     <br/><br/>
     ------------ PERFORMANCE CONTROL -------------<br/>
     <!--TODO: toggle text shadow; diplay image; system stats; user count-->
+    SHADOW:  <button id="shadow" onclick="toggleShadow()">ON</button>
 
     <script src="./js/socket.io.js"></script>
     <script src="./js/sha256.min.js"></script>

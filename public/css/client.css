@@ -1,5 +1,5 @@
 .dark-theme {
-    background-color: #222;
+    background-color: #000;
     color: #ddd;
 }
 
@@ -11,23 +11,82 @@
 body {
     font-family: 'Noto Sans', 'Roboto Sans', sans-serif;
     font-size: 1em;
-    font-weight: lighter;
+    font-weight: 300;
     zoom: 3.6;
 }
 
-button {
+.body-dark {
+    background-color: #000;
+    color: #fff;
+}
+
+.body-light {
+    background-color: #fff;
+    color: #222;
+}
+
+#dark {
+    border-radius: 50%;
+    position: fixed;
+    left: 1em;
+    bottom: 1em;
+    font-size: 1em;
+    height: 30px;
+    width: 30px;
+    /*background-color: black;*/
+    border: transparent;
+}
+
+.dark-dark {
+    /* the 'dark' theme of 'dark' element */
+    background-color: white;
+}
+
+.dark-light {
+    background-color: black;
+}
+
+#bricon {
+    position: absolute;
+    left: 10%;
+    top: 10%;
+    height: 80%;
+}
+
+#submit {
     border: transparent 0 solid;
-    border-radius: 5px;
-    height: 2.5em;
-    width: 6em;
-    background-color: darkviolet;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    background-color: #d80c25;
     color: #eee;
+    position: fixed;
+    right: 0.5em;
+    bottom: 0.5em;
+    font-weight: bold;
+    font-size: 2em;
 }
 
 #content {
     width: 98%;
     border: 0.04em solid transparent;
     border-bottom-color: gray;
-    border-radius: 0px;
-    font-size: 1.1em;
+    border-radius: 0;
+    font-size: 1.2em;
+    height: 1.5em;
+}
+
+.content-dark {
+    background-color: #000;
+    color: #fff;
+}
+
+.content-light {
+    background-color: #fff;
+    color: #222;
+}
+
+#banner {
+    width: 100%;
+    height: auto;
 }

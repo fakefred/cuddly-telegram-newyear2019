@@ -34,3 +34,23 @@ function send() {
     });
     inputBar.value = '';
 }
+
+// Dark theme
+var dark = false;
+document.getElementById('dark').className = 'dark-light';
+var toggleDark = function () {
+    dark = !dark;
+    if (dark) {
+        document.getElementById('banner').src = 'img/2019_KEY_HSEFZ_DARK.png';
+        document.getElementsByTagName('body')[0].className = 'body-dark';
+        document.getElementById('content').className = 'content-dark';
+        document.getElementById('dark').innerHTML = '<img id="bricon" src="img/brightness_dark.png"/>';
+        document.getElementById('dark').className = 'dark-dark';
+    } else {
+        document.getElementById('banner').src = 'img/2019_KEY_HSEFZ.png';
+        document.getElementsByTagName('body')[0].className = 'body-light';
+        document.getElementById('content').className = 'content-light';
+        document.getElementById('dark').innerHTML = '<img id="bricon" src="img/brightness_light.png"/>';
+        document.getElementById('dark').className = 'dark-light';
+    }
+};
