@@ -28,6 +28,21 @@ let express = require('express');
 let app = express();
 let http = require('http').Server(app);
 let io = require('socket.io')(http);
+let jsonfile = require('jsonfile');
+const logFile = './log';
+
+const timestamp = () => {
+    let time = new Date();
+    let minute = time.getMinutes();
+    let hour   = time.getHours();
+    let second = time.getSeconds();
+    let ts = hour + ':' + minute + ':' + second;
+    return ts;
+};
+
+let logToFile = obj => {
+    jsonfile.writeFile(logFile, obj, {flag: 'a'});
+};
 
 const passwords = require('./passwd.json');
 // contains hashed passwds. prevents unwanted admin access.
@@ -64,6 +79,7 @@ io.of('/display').on('connection', socket => {
         client.on('up', data => {
             if (data.content !== '') {
                 console.log(data);
+                logToFile({content: data.content, time: timestamp()});
                 socket.emit('bullet', data);
             }
         });
@@ -85,19 +101,16 @@ io.of('/display').on('connection', socket => {
     io.of('/admin').on('connection', admin => {
         admin.on('cmd', data => {
             if (data.passwd === passwords.admin) {
-                console.log('ed')
                 // only approve authed admins
                 switch (data.command) {
                     case 'bullet':
                         console.debug(data);
+                        logToFile({content: data.content, time: timestamp()});
                         socket.emit('bullet', data);
-                        break;
-                    case 'shadow':
-                        console.debug('SHADOW COMMAND RECEIVED');
-                        socket.emit('ctrl', data);
                         break;
                     case 'refresh':
                         console.debug('REFRESH COMMAND RECEIVED');
+                        logToFile({command: '**ADMIN REQUESTED DISPLAY RELOAD**', time:timestamp()});
                         socket.emit('refresh', data);
                         break;
                 }
