@@ -1,4 +1,4 @@
-const socket = io();
+const socket = io('/admin');
 let saltedPassword = '';
 
 const authenticate = validPeriod => {  // validPeriod in seconds
@@ -16,7 +16,8 @@ const positionHash = {
 };
 
 const send = () => {
-    socket.emit('up', {
+    socket.emit('cmd', {
+        command: 'bullet',
         content: document.getElementById('content').value,
         color: document.getElementById('color').value,
         position: positionHash[document.getElementById('position').value],
@@ -31,13 +32,9 @@ const lock = () => {
     console.warn('ADMIN ACCESS RESTRICTED');
 };
 
-// display control modules
-let shadowStatus = true;
-const toggleShadow = () => {
-    shadowStatus = !shadowStatus;
-    socket.emit('ctrl', {
-        shadow: shadowStatus,
+const refresh = () => {
+    socket.emit('cmd', {
+        command: 'refresh',
         passwd: saltedPassword
     });
-    document.querySelector('#shadow').innerHTML = shadowStatus ? 'ON' : 'OFF';
 };

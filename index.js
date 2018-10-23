@@ -83,18 +83,26 @@ io.of('/display').on('connection', socket => {
     });
 
     io.of('/admin').on('connection', admin => {
-        admin.on('up', data => {
+        admin.on('cmd', data => {
             if (data.passwd === passwords.admin) {
+                console.log('ed')
                 // only approve authed admins
-                console.debug(data);
-                socket.emit('bullet', data);
-            }
-        });
-        admin.on('ctrl', ctrl => {
-            if (ctrl.passwd === passwords.admin) {
-                console.debug('CTRL COMMAND RECEIVED, CONTENT: \n' + ctrl);
-                socket.emit('ctrl', ctrl);
-            }
+                switch (data.command) {
+                    case 'bullet':
+                        console.debug(data);
+                        socket.emit('bullet', data);
+                        break;
+                    case 'shadow':
+                        console.debug('SHADOW COMMAND RECEIVED');
+                        socket.emit('ctrl', data);
+                        break;
+                    case 'refresh':
+                        console.debug('REFRESH COMMAND RECEIVED');
+                        socket.emit('refresh', data);
+                        break;
+                }
+
+            } else console.warn('Failed Admin Access Attempt');
         });
     });
 });

@@ -78,7 +78,7 @@ let refreshFrame = () => {
             if (dan.position === 'slide') {
                 ctx.fillText(dan.content, windowWidth - dan.speed * dan.frame, dan.y);
                 dan.frame ++;
-                if (dan.speed * dan.frame > windowWidth + dan.width + 120) {
+                if (dan.speed * dan.frame > windowWidth + dan.width + 200) {
                     bullets[i] = undefined;
                     startFrom ++;
                 }
@@ -115,4 +115,9 @@ socket.on('ctrl', ctrl => {
         ctx.shadowOffsetX = 2;
         ctx.shadowOffsetY = 2;
     }
+});
+
+socket.on('refresh', refresh => {
+    console.warn('Reloading');
+    window.location.reload();
 });
