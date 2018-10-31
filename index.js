@@ -29,7 +29,7 @@ let app = express();
 let http = require('http').Server(app);
 let io = require('socket.io')(http);
 let jsonfile = require('jsonfile');
-const logFile = './log';
+const logFile = './log.json';
 
 const timestamp = () => {
     let time = new Date();
@@ -79,7 +79,7 @@ io.of('/display').on('connection', socket => {
         client.on('up', data => {
             if (data.content !== '') {
                 console.log(data);
-                logToFile({content: data.content, time: timestamp()});
+                logToFile({content: data.content, time: timestamp(), from: 'client'});
                 socket.emit('bullet', data);
             }
         });
@@ -105,7 +105,7 @@ io.of('/display').on('connection', socket => {
                 switch (data.command) {
                     case 'bullet':
                         console.debug(data);
-                        logToFile({content: data.content, time: timestamp()});
+                        logToFile({content: data.content, time: timestamp(), from: 'admin'});
                         socket.emit('bullet', data);
                         break;
                     case 'refresh':
