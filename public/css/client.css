@@ -25,16 +25,23 @@ body {
     color: #222;
 }
 
-#dark {
+#dark, #random {
     border-radius: 50%;
     position: fixed;
-    left: 1em;
     bottom: 1em;
     font-size: 1em;
     height: 30px;
     width: 30px;
     /*background-color: black;*/
     border: transparent;
+}
+
+#dark {
+    left: 1em;
+}
+
+#random {
+    left: 4em;
 }
 
 .dark-dark {
@@ -51,6 +58,24 @@ body {
     left: 10%;
     top: 10%;
     height: 80%;
+}
+
+#random {
+    background-color: darkviolet;
+}
+
+#randomDataset {
+    position: absolute;
+    left: 15%;
+    top: 15%;
+    height: 70%;
+}
+
+#send {
+    position: absolute;
+    left: 18%;
+    top: 15%;
+    height: 70%;
 }
 
 #submit {

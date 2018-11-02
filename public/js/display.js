@@ -101,23 +101,11 @@ let dispImage = image => {
     }
 };
 
-
-socket.on('ctrl', ctrl => {
-    console.debug('shadow');
-    if (!ctrl.shadow) {
-        ctx.shadowColor = undefined;
-        ctx.shadowBlur = undefined;
-        ctx.shadowOffsetX = undefined;
-        ctx.shadowOffsetY = undefined;
-    } else {
-        ctx.shadowColor = '#666666';
-        ctx.shadowBlur = 0;
-        ctx.shadowOffsetX = 2;
-        ctx.shadowOffsetY = 2;
-    }
-});
-
 socket.on('refresh', refresh => {
     console.warn('Reloading');
     window.location.reload();
+});
+
+socket.on('image', data => {
+    dispImage(data.filename);
 });

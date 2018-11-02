@@ -38,3 +38,30 @@ const refresh = () => {
         passwd: saltedPassword
     });
 };
+
+let profanityProhibited = false;
+const profane = () => {
+    profanityProhibited = !profanityProhibited;
+    socket.emit('cmd', {
+        command: 'profane',
+        status: profanityProhibited,
+        passwd: saltedPassword
+    });
+};
+
+const clearImg = () => {
+    socket.emit('cmd', {
+        command: 'image',
+        filename: '',
+        passwd: saltedPassword
+    });
+};
+
+const displayImg = () => {
+    let filename = document.querySelector('#filename').value;
+    socket.emit('cmd', {
+        command: 'image',
+        filename,
+        passwd: saltedPassword
+    });
+};

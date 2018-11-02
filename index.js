@@ -24,32 +24,36 @@
     ALSO, HAPPY NEW YEAR 2019.
 */
 
-let express = require('express');
-let app = express();
-let http = require('http').Server(app);
-let io = require('socket.io')(http);
-let jsonfile = require('jsonfile');
+const express = require('express');
+const app = express();
+const http = require('http').Server(app);
+app.set('port', process.env.PORT || 2019);
+app.use(express.static(__dirname + '/public'));
+const publicDir = __dirname + '/public/';
+const io = require('socket.io')(http);
+
+const jsonfile = require('jsonfile');
+const chalk = require('chalk');
+
 const logFile = './log.json';
 
+// timestamps logs
 const timestamp = () => {
     let time = new Date();
     let minute = time.getMinutes();
     let hour   = time.getHours();
     let second = time.getSeconds();
-    let ts = hour + ':' + minute + ':' + second;
-    return ts;
-};
+    return hour + ':' + minute + ':' + second;
 
+};
 let logToFile = obj => {
+    // 'a' flag indicates 'append'
     jsonfile.writeFile(logFile, obj, {flag: 'a'});
+
 };
 
-const passwords = require('./passwd.json');
 // contains hashed passwds. prevents unwanted admin access.
-
-app.set('port', process.env.PORT || 2019);
-app.use(express.static(__dirname + '/public'));
-let publicDir = __dirname + '/public/';
+const passwords = require('./passwd.json');
 
 app.get('/', (req, res) => {
     res.sendFile(publicDir + 'client.html');
@@ -68,24 +72,53 @@ app.get('/admin', (req, res) => {
     res.sendFile(publicDir + 'admin.html');
 });
 
+//contains a lot of unicode (of hearts)
+const loveEmojis = ['❤', '💘', '💕', '💗', '💖', '💙', '💚', '💛', '🧡', '💜', '🖤', '💓'];
+const randomLove = () => {
+    return loveEmojis[Math.floor(Math.random() * loveEmojis.length)];
+};
+
+let profaneProhibited = false;
+
 // catches connection from /display, then catches io from clients.
 // this means if display refreshes, clients must refresh to establish a new connection.
 io.of('/display').on('connection', socket => {
     let usersOnline = 0;
-    console.log('display connected');
+    console.log(chalk.gray('display connected'));
     io.on('connection', client => {
         usersOnline ++;
-        console.log('a client connected, current users online: ' + usersOnline);
+        console.log(chalk.gray('a client connected, current users online: ' + usersOnline));
         client.on('up', data => {
-            if (data.content !== '') {
-                console.log(data);
+            if (data.content !== '' && data.content.length <= 64) {
                 logToFile({content: data.content, time: timestamp(), from: 'client'});
+                if (/^\S*\s*((Love|LOVE|love)[sd]?|爱|愛|❤️💘💕💘💕💘💕💘💕)(?!(\s|-)?[Ll][Ii][Vv][Ee])\s*\S*$/.test(data.content) || /^表白/.test(data.content)) {
+                    /*
+                        love/loves/loved, but not lovelive
+                        matches: I love you, Van loves Billy
+                        not a match: lovelive, I watch lovelive every day
+                     */
+                    //  console.log('love');
+                    console.log(chalk.magenta(data.content));
+                    data.content = randomLove() + data.content + randomLove();
+                    console.log(chalk.bgMagenta('special effect added'));
+                } else if (/([Ff][Uu][Cc][Kk]|[Ss][Hh][Ii][Tt]|[Bb][Ii][Tt][Cc][Hh]|[Aa][Ss]{2})|艹|傻(逼|(吊|屌))/.test(data.content)) {
+                    // yes, it *is* embarrassing.
+                    // a. profanity filter actually *brought* profane content into the code
+                    // b. the code is no longer ASCII-clean
+                    console.warn(chalk.bgRed.white('New Profane Content Received'));
+                    if (profaneProhibited) {
+                        console.log(chalk.red('[FILTERED] ' + data.content + '\n'));
+                        data.content = '';
+                    } else console.log(chalk.red(data.content));
+                } else {
+                    console.log(data.content);
+                }
                 socket.emit('bullet', data);
             }
         });
         client.on('disconnect', () => {
             usersOnline --;
-            console.log('a client disconnected, current users online: ' + usersOnline);
+            console.log(chalk.gray('a client disconnected, current users online: ' + usersOnline));
         });
     });
 
@@ -104,22 +137,32 @@ io.of('/display').on('connection', socket => {
                 // only approve authed admins
                 switch (data.command) {
                     case 'bullet':
-                        console.debug(data);
+                        console.log(chalk.yellow(data));
                         logToFile({content: data.content, time: timestamp(), from: 'admin'});
                         socket.emit('bullet', data);
                         break;
                     case 'refresh':
-                        console.debug('REFRESH COMMAND RECEIVED');
-                        logToFile({command: '**ADMIN REQUESTED DISPLAY RELOAD**', time:timestamp()});
+                        console.log(chalk.bgYellow.black('REFRESH COMMAND RECEIVED'));
+                        logToFile({command: '**ADMIN REQUEST DISPLAY RELOAD**', time:timestamp()});
                         socket.emit('refresh', data);
+                        break;
+                    case 'profane':
+                        console.log(chalk.bgRed('PROFANE FILTER SWITCH RECEIVED: ' + (data.status ? 'ON' : 'OFF')));
+                        logToFile({command: '**ADMIN REQUIRE PROFANE FILTER ' + (data.status ? 'ON' : 'OFF') + '**'});
+                        profaneProhibited = data.status;
+                        break;
+                    case 'image':
+                        console.log(chalk.bgGreen.white('BG IMAGE COMMAND RECEIVED, FILENAME: ' + data.filename));
+                        logToFile({command: '**ADMIN REQUEST IMAGE DISP: ' + (data.filename ? data.filename : 'CLEAR') + '**'});
+                        socket.emit('image', data);
                         break;
                 }
 
-            } else console.warn('Failed Admin Access Attempt');
+            } else console.warn(chalk.inverse('Failed Admin Access Attempt'));
         });
     });
 });
 
 http.listen(2019, () => {
-    console.log('running on port 2019');
+    console.log(chalk.inverse('running on port 2019'));
 });

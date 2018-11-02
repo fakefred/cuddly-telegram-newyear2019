@@ -3,6 +3,7 @@
 <head>
     <title>CTNY2019 Admin Console</title>
     <link rel="stylesheet" href="css/admin.css"/>
+    <link rel="icon" href="img/key_favicon.png" type="image/favicon"/>
 </head>
 <body>
     --------------- AUTHENTICATION ----------------<br/>
@@ -14,14 +15,20 @@
     --------------- BULLET CONTROL ---------------<br/>
     <textarea id="content" name="content"  autocomplete="off" maxlength="65536"></textarea>
     <br/><br/>
-    COL  # <input id="color" name="color" autocomplete="off" maxlength="6"/>
-    POS  # <input id="position" name="position" autocomplete="off" maxlength="1"/>
-    SIZ  # <input id="size" name="size" autocomplete="off" maxlength="2"/>
+    COL  # <input id="color" name="color" autocomplete="off" maxlength="6" value="FFFFFF"/>
+    POS  # <input id="position" name="position" autocomplete="off" maxlength="1" value="S"/>
+    SIZ  # <input id="size" name="size" autocomplete="off" maxlength="2" value="40"/>
     <button id="submit" onclick="send()" type="submit"><b>LAUNCH</b></button>
     <br/><br/>
     --------------- DISPLAY CONTROL ---------------<br/>
     <!--TODO: toggle text shadow; diplay image; system stats; user count-->
     <button id="refresh" onclick="refresh()">REFRESH</button>
+    <button id="profane" onclick="profane()">PROFANE</button>
+    <br/><br/>
+    -------------- BACKGROUND IMAGE ---------------<br/>
+    <input id="filename" autocomplete="on"/>
+    <button id="display" onclick="displayImg()">DISPLAY</button>
+    <button id="clear" onclick="clearImg()">CLEAR</button>
 
     <script src="./js/socket.io.js"></script>
     <script src="./js/sha256.min.js"></script>

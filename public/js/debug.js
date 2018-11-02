@@ -4,7 +4,7 @@ let saltedPassword = '';
 const authenticate = () => {
     let password = document.getElementById('passwd').value;
     saltedPassword = sha256(password);
-}
+};
 
 const colors    = ['white', 'red', 'green', 'yellow', 'blue'];
 const sizes     = ['small', 'medium', 'large'];
@@ -20,14 +20,14 @@ let singleTest = () => {
         from: 'debug',
         passwd: saltedPassword
     });
-}
+};
 
 let simulTest = num => {
     let content = document.getElementById('content').value;
     for (c = num; c > 0; c--){
         singleTest();
     }
-}
+};
 
 let lapseTest = (num, intv) => {
     let content = document.getElementById('content').value;
@@ -38,9 +38,9 @@ let lapseTest = (num, intv) => {
         if (c > 0){
             setTimeout(send, intv);
         }
-    }
+    };
     send();
-}
+};
 
 let testAsDefined = () => {
     let quant = document.getElementById('quant').value;
@@ -50,4 +50,4 @@ let testAsDefined = () => {
     } else {
         lapseTest(quant, interval);
     }
-}
+};

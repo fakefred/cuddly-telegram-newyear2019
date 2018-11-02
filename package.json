@@ -4,7 +4,7 @@
   "description": "cuddly-telegram-newyear2019",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon index.js"
+    "test": "nodemon -i log.json index.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/fakefred/cuddly-telegram-newyear2019#readme",
   "dependencies": {
+    "chalk": "^2.4.1",
     "express": "^4.16.3",
     "http": "^0.0.0",
     "jsonfile": "^5.0.0",

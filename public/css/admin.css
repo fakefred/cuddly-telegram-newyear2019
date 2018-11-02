@@ -2,7 +2,7 @@ body {
     background-color: black;
     color: limegreen;
     font-family: 'Noto Mono', 'Hack', 'DejaVu Sans Mono', monospace;
-    font-size: 1em;
+    font-size: 1.5em;
 }
 
 button {
@@ -55,4 +55,8 @@ input, textarea {
 
 #shadow {
     width: 3em;
+}
+
+#filename {
+    width: 17em;
 }
