@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+    <title>2019@HSEFZ</title>
+    <!--link rel="stylesheet" href="/css/image.css"/-->
+    <!--link rel="icon" href="/img/favicon.png" type="image/x-icon"-->
+    <link rel="stylesheet" href="./css/client.css"/>
+    <meta name="viewport" content="user-scalable=no"/>
+    <link rel="icon" href="img/key_favicon.png" type="image/favicon"/>
+</head>
+<body>
+    <h1 id="title"><img id="banner" src="img/2019_KEY_HSEFZ.png"/></h1>
+    
+    <input id="content" name="content" autocomplete="off" autofocus="on" maxlength="64" placeholder="Content"/><br/>
+    <br/>
+    <input id="white"  type="radio" name="color" checked/><label for="white"                      >WHI</label>
+    <input id="red"    type="radio" name="color"        /><label for="red"    style="color: #f22;">RED</label>
+    <input id="orange" type="radio" name="color"        /><label for="orange" style="color: #f80;">ORA</label>
+    <input id="yellow" type="radio" name="color"        /><label for="yellow" style="color: #cc3;">YEL</label><br/>
+    <input id="green"  type="radio" name="color"        /><label for="green"  style="color: #0d0;">GRN</label>
+    <input id="cyan"   type="radio" name="color"        /><label for="cyan"   style="color: #0dd;">CYN</label>
+    <input id="blue"   type="radio" name="color"        /><label for="blue"   style="color: #22f;">BLU</label>
+    <input id="violet" type="radio" name="color"        /><label for="violet" style="color: #909;">PUR</label><br/>
+    <input id="pink"   type="radio" name="color"        /><label for="pink"   style="color: #f2f;">PNK</label>
+    <input id="gray"   type="radio" name="color"        /><label for="gray"   style="color: #aaa;">GRA</label><br/>
+    <br/>
+    <input class="size" id="small" type="radio" name="size" value="small"/><label for="small">S</label>
+    <input class="size" id="medium" type="radio" name="size" value="medium" checked/><label for="medium">M</label>
+    <input class="size" id="large" type="radio" name="size" value="large"/><label for="large">L</label><br/>
+    <br/>
+    <input class="position" id="slide" type="radio" name="position" value="slide" checked/><label for="slide">Slide</label>
+    <input class="position" id="top" type="radio" name="position" value="top"/><label for="top">Top</label>
+    <input class="position" id="bottom" type="radio" name="position" value="bottom"/><label for="bottom">Bottom</label><br/>
+    <br>
+    <button id="dark" onclick="toggleDark()"><img id="bricon" src="img/brightness_light.png"/></button>
+    <button id="random" onclick="randomDataset()"><img id="randomDataset" src="img/dice_light.png"/></button>
+    <button id="submit" onclick="send()" type="submit"><img id="send" src="img/send_light.png"/></button>
+
+    <script type="application/javascript" src="./js/socket.io.js"></script>
+    <script type="application/javascript" src="./js/client.js"></script>
+</body>
+</html>

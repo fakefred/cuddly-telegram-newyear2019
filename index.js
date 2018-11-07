@@ -59,6 +59,10 @@ app.get('/', (req, res) => {
     res.sendFile(publicDir + 'client.html');
 });
 
+app.get('/en', (req, res) => {
+    res.sendFile(publicDir + 'client-en.html');
+});
+
 app.get('/display', (req, res) => {
     // projector
     res.sendFile(publicDir + 'display.html');

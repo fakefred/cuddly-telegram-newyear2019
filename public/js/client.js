@@ -7,21 +7,40 @@ content.addEventListener('keyup', function (e) {
     }
 }, false);
 
-const placeholderText = [
-    '说点什么吧',
-    '实在没什么说，念诗也可以啊',
-    '来为台上的人打 call',
-    '仔细读服务条款哦',
-    '想表白？可以',
-    'Do you like what you see?',
-    '台上的人优不优秀？',
-    '注意电量和流量！',
-    '左下角的按钮可以切换亮暗',
-    '如果不能运行，可能是浏览器不支持',
-    '如果旁边某位只有诺基亚的同学想借手机，就大方点吧',
-    '本弹幕系统完全匿名！',
-    '华二首家（划掉）第三家线上弹幕上线啦'
-];
+let placeholderText = [];
+if(/(\/en|\/client-en\.html)/.test(window.location)) {
+    placeholderText = [
+        'Hey, wanna say something?',
+        'Poems are okay, too!',
+        'Shake your glowing sticks!',
+        'Plz read ToS thoroughly',
+        'Show your love today.',
+        'Do you like what you see?',
+        'School of **EXCELLENCE**',
+        'Mind your battery and cellular!',
+        'Brightness is on bottom-left.',
+        'If not working, browser\'s fault.',
+        'Kindly lend ur phone 2 Nokians.',
+        'It\'s anonymous!',
+        'We\'re online!'
+    ];
+} else {
+    placeholderText = [
+        '说点什么吧',
+        '实在没什么说，念诗也可以啊',
+        '来为台上的人打 call',
+        '仔细读服务条款哦',
+        '想表白？可以',
+        'Do you like what you see?',
+        '台上的人优不优秀？',
+        '注意电量和流量！',
+        '左下角的按钮可以切换亮暗',
+        '如果不能运行，可能是浏览器不支持',
+        '如果旁边某位只有诺基亚的同学想借手机，就大方点吧',
+        '本弹幕系统完全匿名！',
+        '华二首家（划掉）第三家线上弹幕上线啦'
+    ];
+}
 
 let position = '',
     color ='',
