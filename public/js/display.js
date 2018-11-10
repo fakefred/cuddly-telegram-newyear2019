@@ -33,15 +33,18 @@ socket.on('bullet', data => {
         color: data.color,
         position: data.position,
         size: data.size,
-        frame: 0
+        frame: 0,
+        fromAdmin: data.from === 'admin'
     };
     if (data.position === 'slide') {
         bullets[bullets.length - 1].y = Math.floor(Math.random() * (windowHeight - 40));
         bullets[bullets.length - 1].speed = Math.floor(Math.random() * 3) + 2;
     } else if (data.position === 'top') {
+        bullets[bullets.length - 1].x = (windowWidth - bullets[bullets.length - 1].width) / 2;
         bullets[bullets.length - 1].y = Math.random() * (windowHeight / 2 - 40);
         bullets[bullets.length - 1].framesToShow = Math.floor(Math.random() * 80) + 120;
     } else if (data.position === 'bottom') {
+        bullets[bullets.length - 1].x = (windowWidth - bullets[bullets.length - 1].width) / 2;
         bullets[bullets.length - 1].y = Math.random() * (windowHeight / 2 - 40) + windowHeight / 2;
         bullets[bullets.length - 1].framesToShow = Math.floor(Math.random() * 80) + 120;
     }
@@ -70,7 +73,7 @@ const colorHash = {
 
 let refreshFrame = () => {
     ctx.clearRect(0, 0, windowWidth, windowHeight);
-    for (i = startFrom; i < bullets.length; i++) {
+    for (let i = startFrom; i < bullets.length; i++) {
         let dan = bullets[i];
         if (dan) {
             ctx.font = sizeHash[dan.size] || dan.size + 'px Noto Sans, Noto Color Emoji';
@@ -83,7 +86,8 @@ let refreshFrame = () => {
                     startFrom ++;
                 }
             } else if (dan.position === 'top' || dan.position === 'bottom') {
-                ctx.fillText(dan.content, (windowWidth - dan.width) / 2, dan.y);
+                ctx.fillRect((dan.x - 10), (dan.y - dan.size - 10), (dan.width + 20), (dan.size));
+                ctx.fillText(dan.content, dan.x, dan.y);
                 dan.framesToShow--;
                 if (dan.framesToShow === 0) bullets[i] = undefined;
             }

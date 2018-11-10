@@ -22,7 +22,7 @@ if(/(\/en|\/client-en\.html)/.test(window.location)) {
         'If not working, browser\'s fault.',
         'Kindly lend ur phone 2 Nokians.',
         'It\'s anonymous!',
-        'We\'re online!'
+        'Special thx 2 prev techie-dudes!'
     ];
 } else {
     placeholderText = [

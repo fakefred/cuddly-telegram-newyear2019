@@ -24,6 +24,8 @@
     ALSO, HAPPY NEW YEAR 2019.
 */
 
+const os = require('os');
+
 const express = require('express');
 const app = express();
 const http = require('http').Server(app);
@@ -43,7 +45,8 @@ const timestamp = () => {
     let minute = time.getMinutes();
     let hour   = time.getHours();
     let second = time.getSeconds();
-    return hour + ':' + minute + ':' + second;
+    return `${hour}:${minute}:${second}`;
+    //return hour + ':' + minute + ':' + second;
 
 };
 let logToFile = obj => {
@@ -91,7 +94,7 @@ io.of('/display').on('connection', socket => {
     console.log(chalk.gray('display connected'));
     io.on('connection', client => {
         usersOnline ++;
-        console.log(chalk.gray('a client connected, current users online: ' + usersOnline));
+        console.log(chalk.gray(`a client connected, current users online: ${usersOnline}`));
         client.on('up', data => {
             if (data.content !== '' && data.content.length <= 64) {
                 logToFile({content: data.content, time: timestamp(), from: 'client'});
@@ -111,7 +114,7 @@ io.of('/display').on('connection', socket => {
                     // b. the code is no longer ASCII-clean
                     console.warn(chalk.bgRed.white('New Profane Content Received'));
                     if (profaneProhibited) {
-                        console.log(chalk.red('[FILTERED] ' + data.content + '\n'));
+                        console.log(chalk.green('[FILTERED] ') + chalk.red(data.content + '\n'));
                         data.content = '';
                     } else console.log(chalk.red(data.content));
                 } else {
@@ -122,7 +125,7 @@ io.of('/display').on('connection', socket => {
         });
         client.on('disconnect', () => {
             usersOnline --;
-            console.log(chalk.gray('a client disconnected, current users online: ' + usersOnline));
+            console.log(chalk.gray(`a client disconnected, current users online: ${usersOnline}`));
         });
     });
 
@@ -141,7 +144,7 @@ io.of('/display').on('connection', socket => {
                 // only approve authed admins
                 switch (data.command) {
                     case 'bullet':
-                        console.log(chalk.yellow(data));
+                        console.log(chalk.yellow(data.content));
                         logToFile({content: data.content, time: timestamp(), from: 'admin'});
                         socket.emit('bullet', data);
                         break;
@@ -152,21 +155,40 @@ io.of('/display').on('connection', socket => {
                         break;
                     case 'profane':
                         console.log(chalk.bgRed('PROFANE FILTER SWITCH RECEIVED: ' + (data.status ? 'ON' : 'OFF')));
-                        logToFile({command: '**ADMIN REQUIRE PROFANE FILTER ' + (data.status ? 'ON' : 'OFF') + '**'});
+                        logToFile({command: `**ADMIN REQUIRE PROFANE FILTER ${data.status ? 'ON' : 'OFF'}**`});
                         profaneProhibited = data.status;
                         break;
                     case 'image':
                         console.log(chalk.bgGreen.white('BG IMAGE COMMAND RECEIVED, FILENAME: ' + data.filename));
-                        logToFile({command: '**ADMIN REQUEST IMAGE DISP: ' + (data.filename ? data.filename : 'CLEAR') + '**'});
+                        logToFile({command: `**ADMIN REQUEST IMAGE DISP: ${data.filename ? data.filename : 'CLEAR'}**`});
                         socket.emit('image', data);
                         break;
                 }
 
-            } else console.warn(chalk.inverse('Failed Admin Access Attempt'));
+            } else console.warn(chalk.bgWhite.black('Failed Admin Access Attempt'));
         });
+
+        let osStatus = () => {
+            let mem    = os.freemem();
+            let byte   = mem%1024;
+            mem = (mem - byte) / 1024;
+            let kilo   = mem%1024;
+            mem = (mem - kilo) / 1024;
+            let mega   = mem%1024;
+            mem = (mem - mega) / 1024;
+            let giga   = mem%1024;
+
+            admin.emit('os', {
+                mem: {
+                    giga, mega, kilo
+                },
+                userCount: usersOnline
+            });
+        };
+        setInterval(osStatus, 5000);
     });
 });
 
 http.listen(2019, () => {
-    console.log(chalk.inverse('running on port 2019'));
+    console.log(chalk.bgWhite.black('running on port 2019'));
 });

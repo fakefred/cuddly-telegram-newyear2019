@@ -15,6 +15,10 @@ button {
     font-weight: bold;
 }
 
+pre {
+    font-size: 1.2em;
+}
+
 input, textarea {
     background-color: black;
     color: limegreen;
@@ -28,7 +32,7 @@ input, textarea {
 }
 
 #content {
-    height: 6em;
+    height: 2em;
     width: 27em;
 }
 

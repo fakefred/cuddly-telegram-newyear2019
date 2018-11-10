@@ -6,7 +6,7 @@
     <link rel="icon" href="img/key_favicon.png" type="image/favicon"/>
 </head>
 <body>
-    --------------- AUTHENTICATION ----------------<br/>
+    --------------- AUTHENTICATION ---------------<br/>
     <input id="passwd" type="password" autocomplete="off" autofocus="on"/>
     <button id="auth" onclick="authenticate()">AUTH</button>
     <button id="lock" onclick="lock()">LOCK</button>
@@ -20,15 +20,18 @@
     SIZ  # <input id="size" name="size" autocomplete="off" maxlength="2" value="40"/>
     <button id="submit" onclick="send()" type="submit"><b>LAUNCH</b></button>
     <br/><br/>
-    --------------- DISPLAY CONTROL ---------------<br/>
+    --------------- DISPLAY CONTROL --------------<br/>
     <!--TODO: toggle text shadow; diplay image; system stats; user count-->
     <button id="refresh" onclick="refresh()">REFRESH</button>
     <button id="profane" onclick="profane()">PROFANE</button>
     <br/><br/>
-    -------------- BACKGROUND IMAGE ---------------<br/>
+    -------------- BACKGROUND IMAGE --------------<br/>
     <input id="filename" autocomplete="on"/>
     <button id="display" onclick="displayImg()">DISPLAY</button>
     <button id="clear" onclick="clearImg()">CLEAR</button>
+    <br/><br/>
+    ---------------- HOST OS STATUS --------------<br/>
+    <pre id="status">FREEMEM: 000G 000M 000K   USERS ONLINE: 0</pre>
 
     <script src="./js/socket.io.js"></script>
     <script src="./js/sha256.min.js"></script>

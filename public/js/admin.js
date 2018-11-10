@@ -65,3 +65,7 @@ const displayImg = () => {
         passwd: saltedPassword
     });
 };
+
+socket.on('os', os => {
+    document.querySelector('#status').innerHTML = `FREEMEM: ${os.mem.giga}G ${os.mem.mega}M ${os.mem.kilo}K   USERS ONLINE: ${os.userCount}`;
+});
