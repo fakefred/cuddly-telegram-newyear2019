@@ -6,7 +6,7 @@ const authenticate = validPeriod => {  // validPeriod in seconds
     saltedPassword = sha256(password);
     password = undefined; // maybe generate a random string to confuse intruders?
     setTimeout(lock, validPeriod * 1000 || 300000);
-    console.warn('PASSWORD HASH RECORDED');
+    console.warn('PASSWORD HASH RECORDED:' + saltedPassword);
 };
 
 const positionHash = {
@@ -15,13 +15,37 @@ const positionHash = {
     S: 'slide'
 };
 
+const levelHash = {
+    W: 'warn',
+    I: 'info',
+    X: 'none'
+};
+
+const predefinedText = {
+    reqClientReload: '请大家现在刷新网页',
+    dispURL: '我们在 https://domain.tld/',  // autometalogolex.me, as for present
+    noFlooding: '请不要刷屏，谢谢',
+    happyNewYear: '2019@HSEFZ 新年快乐！'
+};
+
+const contentArea = document.querySelector('#content'),
+      colorBar    = document.querySelector('#color'),
+      positionBar = document.querySelector('#position'),
+      sizeBar     = document.querySelector('#size'),
+      levelBar    = document.querySelector('#level');
+
+const fillBulletText = textIndex => {
+    contentArea.innerText = predefinedText[textIndex];
+};
+
 const send = () => {
     socket.emit('cmd', {
         command: 'bullet',
-        content: document.getElementById('content').value,
-        color: document.getElementById('color').value,
-        position: positionHash[document.getElementById('position').value],
-        size: document.getElementById('size').value,
+        content: contentArea.value,
+        color: colorBar.value,
+        position: positionHash[positionBar.value],
+        size: sizeBar.value,
+        level: levelHash[levelBar.value],
         from: 'admin',
         passwd: saltedPassword
     });

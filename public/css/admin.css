@@ -37,7 +37,7 @@ input, textarea {
 }
 
 #color {
-    width: 6em;
+    width: 4em;
 }
 
 #position {
@@ -48,13 +48,13 @@ input, textarea {
     width: 2em;
 }
 
+#level {
+    width: 1em;
+}
+
 #notice {
     width: 27em;
     height: 3em;
-}
-
-#level {
-    width: 18em;
 }
 
 #shadow {

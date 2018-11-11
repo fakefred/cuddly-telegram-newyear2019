@@ -146,6 +146,13 @@ io.of('/display').on('connection', socket => {
                     case 'bullet':
                         console.log(chalk.yellow(data.content));
                         logToFile({content: data.content, time: timestamp(), from: 'admin'});
+                        if (data.level === 'warn') {
+                            // inside the string: exclamation-in-triangle emojis with data.content in between
+                            data.content = `⚠️${data.content}⚠️`;
+                        } else if (data.level === 'info') {
+                            // inside the string: bell emoji, data.content, bell emoji
+                            data.content = `🔔${data.content}🔔`;
+                        }
                         socket.emit('bullet', data);
                         break;
                     case 'refresh':

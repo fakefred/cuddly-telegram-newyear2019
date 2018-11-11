@@ -69,7 +69,17 @@ const colorHash = {
     gray  : '#aaa',
     orange: '#f80',
     violet: '#909',
-}
+    WH : '#fff',
+    BU  : '#22f',
+    RD   : '#f22',
+    GR : '#2f2',
+    YE: '#ff2',
+    PK  : '#f2f',
+    CY  : '#2ff',
+    GY  : '#aaa',
+    OR: '#f80',
+    VI: '#909'
+};
 
 let refreshFrame = () => {
     ctx.clearRect(0, 0, windowWidth, windowHeight);

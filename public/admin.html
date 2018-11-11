@@ -15,14 +15,19 @@
     --------------- BULLET CONTROL ---------------<br/>
     <textarea id="content" name="content"  autocomplete="off" maxlength="65536"></textarea>
     <br/><br/>
-    COL  # <input id="color" name="color" autocomplete="off" maxlength="6" value="FFFFFF"/>
-    POS  # <input id="position" name="position" autocomplete="off" maxlength="1" value="S"/>
-    SIZ  # <input id="size" name="size" autocomplete="off" maxlength="2" value="40"/>
+    COL <input id="color" name="color" autocomplete="off" maxlength="6" value="FFFFFF"/>
+    POS <input id="position" name="position" autocomplete="off" maxlength="1" value="S"/>
+    SIZ <input id="size" name="size" autocomplete="off" maxlength="2" value="40"/>
+    LEV <input id="level" name="level" autocomplete="off" maxlength="1" value="X"/>
     <button id="submit" onclick="send()" type="submit"><b>LAUNCH</b></button>
     <br/><br/>
     --------------- DISPLAY CONTROL --------------<br/>
     <!--TODO: toggle text shadow; diplay image; system stats; user count-->
     <button id="refresh" onclick="refresh()">REFRESH</button>
+    <button onclick="fillBulletText('reqClientReload')">REQCLIRLD</button>
+    <button onclick="fillBulletText('dispURL')">DISP URL</button>
+    <button onclick="fillBulletText('noFlooding')">NO FLOOD</button>
+    <button onclick="fillBulletText('happyNewYear')">HNY</button>
     <button id="profane" onclick="profane()">PROFANE</button>
     <br/><br/>
     -------------- BACKGROUND IMAGE --------------<br/>
