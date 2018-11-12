@@ -99,23 +99,33 @@ let toggleDark = function () {
     }
 };
 
-const randomDataset = () => {
-    let aoie = document.getElementsByTagName('input');
-    let posTypes = [], colTypes = [], sizTypes = [];
-    // get input category quant and id
-    for (let i = 0; i < aoie.length; i++) {
-        if (aoie[i].type === 'radio') {
-            if (aoie[i].name === 'position') {
-                posTypes[posTypes.length] = aoie[i].id;
-            } else if (aoie[i].name === 'color') {
-                colTypes[colTypes.length] = aoie[i].id;
-            } else if (aoie[i].name === 'size') {
-                sizTypes[sizTypes.length] = aoie[i].id;
-            }
+let aoie = document.getElementsByTagName('input');
+let posTypes = [], colTypes = [], sizTypes = [];
+let posRadios = [], colRadios = [], sizRadios = [];
+// get input category quant and id
+for (let i = 0; i < aoie.length; i++) {
+    if (aoie[i].type === 'radio') {
+        if (aoie[i].name === 'position') {
+            posRadios[posRadios.length] = aoie[i];
+        } else if (aoie[i].name === 'color') {
+            colRadios[colRadios.length] = aoie[i];
+        } else if (aoie[i].name === 'size') {
+            sizRadios[sizRadios.length] = aoie[i];
         }
     }
-    position = posTypes[Math.floor(Math.random() * posTypes.length)];
-    color = colTypes[Math.floor(Math.random() * colTypes.length)];
-    size = sizTypes[Math.floor(Math.random() * sizTypes.length)];
+}
+
+const randomDataset = () => {
+    let posRand = Math.floor(Math.random() * posRadios.length),
+        colRand = Math.floor(Math.random() * colRadios.length),
+        sizRand = Math.floor(Math.random() * sizRadios.length);
+    position = posRadios[posRand].id;
+    color = colRadios[colRand].id;
+    size = sizRadios[sizRand].id;
+
+    posRadios[posRand].checked = true;
+    colRadios[colRand].checked = true;
+    sizRadios[sizRand].checked = true;
     console.log(position, color, size);
+
 };

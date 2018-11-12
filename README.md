@@ -11,7 +11,7 @@
 > Password is temporarily `hsefz`
 
 Online demo should be available on [http://autometalogolex.me/display](http://autometalogolex.me/display),
-    [http://autometalogolex.me:2019/](http://autometalogolex.me/) and other routes defined above.
+    [http://autometalogolex.me/](http://autometalogolex.me/) and other routes defined above.
 
 **Thank you for your patience of testing this application.**
 

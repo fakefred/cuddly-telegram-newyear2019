@@ -7,8 +7,8 @@ body.style.backgroundSize = 'cover';
 
 let windowWidth= window.innerWidth;
 let windowHeight = window.innerHeight;
-canvas.width = windowWidth - 8;
-canvas.height = windowHeight;
+canvas.width = windowWidth * 0.96;
+canvas.height = windowHeight * 0.96;
 
 let ctx = canvas.getContext('2d');
 // default: medium, white
@@ -109,7 +109,7 @@ setInterval(refreshFrame, 25);
 
 let dispImage = image => {
     if (image !== '' && image !== undefined) {
-        body.style = 'background-image: url("/img/' + image + '"); background-size: cover;';
+        body.style = `background-image: url("/img/${image}"); background-size: cover;`;
     } else {
         body.style = 'background-color: black;';
     }
