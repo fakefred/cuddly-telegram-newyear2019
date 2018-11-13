@@ -35,7 +35,7 @@ const contentArea = document.querySelector('#content'),
       levelBar    = document.querySelector('#level');
 
 const fillBulletText = textIndex => {
-    contentArea.innerText = predefinedText[textIndex];
+    contentArea.value = predefinedText[textIndex];
 };
 
 const send = () => {
