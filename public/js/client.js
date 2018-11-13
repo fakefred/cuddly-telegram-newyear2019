@@ -85,7 +85,7 @@ let toggleDark = function () {
         document.getElementsByTagName('body')[0].className = 'body-dark';
         document.getElementById('content').className = 'content-dark';
         document.getElementById('dark').innerHTML = '<img id="bricon" src="img/brightness_dark.png"/>';
-        document.getElementById('random').innerHTML = '<img id="randomDataset" src="img/dice_dark.png"/>';
+        document.getElementById('random').innerHTML = '<img id="random-dataset" src="img/dice_dark.png"/>';
         document.getElementById('submit').innerHTML = '<img id="send" src="img/send_dark.png"/>';
         document.getElementById('dark').className = 'dark-dark';
     } else {
@@ -93,7 +93,7 @@ let toggleDark = function () {
         document.getElementsByTagName('body')[0].className = 'body-light';
         document.getElementById('content').className = 'content-light';
         document.getElementById('dark').innerHTML = '<img id="bricon" src="img/brightness_light.png"/>';
-        document.getElementById('random').innerHTML = '<img id="randomDataset" src="img/dice_light.png"/>';
+        document.getElementById('random').innerHTML = '<img id="random-dataset" src="img/dice_light.png"/>';
         document.getElementById('submit').innerHTML = '<img id="send" src="img/send_light.png"/>';
         document.getElementById('dark').className = 'dark-light';
     }
