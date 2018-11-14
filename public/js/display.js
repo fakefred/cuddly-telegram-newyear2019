@@ -96,7 +96,6 @@ let refreshFrame = () => {
                     startFrom ++;
                 }
             } else if (dan.position === 'top' || dan.position === 'bottom') {
-                ctx.fillRect((dan.x - 10), (dan.y - dan.size - 10), (dan.width + 20), (dan.size));
                 ctx.fillText(dan.content, dan.x, dan.y);
                 dan.framesToShow--;
                 if (dan.framesToShow === 0) bullets[i] = undefined;
