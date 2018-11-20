@@ -4,7 +4,7 @@
   "description": "cuddly-telegram-newyear2019",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon -i log.json index.js",
+    "test": "nodemon -i log.json -i filter.json index.js",
     "tidy": "./tidy.sh"
   },
   "repository": {

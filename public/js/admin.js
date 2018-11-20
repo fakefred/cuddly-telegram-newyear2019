@@ -93,3 +93,60 @@ const displayImg = () => {
 socket.on('os', os => {
     document.querySelector('#status').innerHTML = `FREEMEM: ${os.mem.giga}G ${os.mem.mega}M ${os.mem.kilo}K   USERS ONLINE: ${os.userCount}`;
 });
+
+let filterForce = false;
+
+const flipFilterForce = () => {
+    filterForce = !filterForce;
+    document.querySelector('#filter-force').innerHTML = 'FORCE: ' + (filterForce ? 'Y' : 'N');
+};
+
+let filterList = [];
+
+const filterToggleForce = id => {
+    //console.log(id);
+    socket.emit('cmd', {
+        command: 'modifyFilter',
+        id,
+        property: 'force',
+        value: !filterList[id].force,
+        passwd: saltedPassword
+    });
+    filterList[id].force = !filterList[id].force;
+    document.getElementsByClassName('filter-force')[id].innerHTML = filterList[id].force ? 'Y' : 'N';
+};
+
+const filterToggleActivate = id => {
+  socket.emit('cmd', {
+      command: 'modifyFilter',
+      id,
+      property: 'activate',
+      value: !filterList[id].filter,
+      passwd: saltedPassword
+  });
+  filterList[id].filter = !filterList[id].filter;
+  document.getElementsByClassName('filter-activate')[id].innerHTML = (filterList[id].filter ? 'DE' : '') + 'ACTIVATE';
+};
+
+let filterListDivContent = '';
+socket.on('filterList', list => {
+    filterList = list;
+    for (let i = 0; i < list.length; i ++) {
+        let item = list[i];
+        filterListDivContent += `CONTENT: '${item.content}'; TYPE: '${item.type}'; FORCE: <button class="filter-force" onclick="filterToggleForce(${i})">${item.force ? 'Y' : 'N'}</button>ACTIVATED: <button class="filter-activate" onclick="filterToggleActivate(${i})">${item.filter ? 'DEACTIVATE' : 'ACTIVATE'}</button><br/>`
+    }
+    document.querySelector('#filter-list').innerHTML = filterListDivContent;
+    filterListDivContent = '';
+});
+
+const filterSubmit = () => {
+    let content = document.querySelector('#filter-content').value,
+        type = document.querySelector('#filter-type').value;
+    socket.emit('cmd', {
+        command: 'newFilter',
+        content,
+        type,
+        force: filterForce,
+        passwd: saltedPassword
+    });
+};

@@ -38,6 +38,15 @@
     ---------------- HOST OS STATUS --------------<br/>
     <pre id="status">FREEMEM: 000G 000M 000K   USERS ONLINE: 0</pre>
 
+    ---------------- FILTER OPTIONS --------------<br/>
+    <input id="filter-content"/>
+    <input id="filter-type"/><br/>
+    <button id="filter-force" onclick="flipFilterForce()">FORCE: N</button>
+    <button id="filter-submit" onclick="filterSubmit()">SUBMIT</button>
+    <div id="filter-list">
+
+    </div>
+
     <script src="./js/socket.io.js"></script>
     <script src="./js/sha256.min.js"></script>
     <script src="./js/admin.js"></script>

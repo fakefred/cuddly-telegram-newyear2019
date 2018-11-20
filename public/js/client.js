@@ -80,6 +80,7 @@ let dark = false;
 document.getElementById('dark').className = 'dark-light';
 let toggleDark = function () {
     dark = !dark;
+    // TODO: use document fragment to replace this function
     if (dark) {
         document.getElementById('banner').src = 'img/2019_KEY_HSEFZ_DARK.png';
         document.getElementsByTagName('body')[0].className = 'body-dark';
@@ -127,5 +128,4 @@ const randomDataset = () => {
     colRadios[colRand].checked = true;
     sizRadios[sizRand].checked = true;
     console.log(position, color, size);
-
 };
