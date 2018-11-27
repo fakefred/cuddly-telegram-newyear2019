@@ -25,7 +25,9 @@ const predefinedText = {
     reqClientReload: '请大家现在刷新网页',
     dispURL: '我们在 https://domain.tld/',  // autometalogolex.me, as for present
     noFlooding: '请不要刷屏，谢谢',
-    happyNewYear: '2019@HSEFZ 新年快乐！'
+    happyNewYear: '2019@HSEFZ 新年快乐！',
+    adminQuote: '管理员曰：',
+    clear: ''
 };
 
 const contentArea = document.querySelector('#content'),
@@ -63,16 +65,6 @@ const refresh = () => {
     });
 };
 
-let profanityProhibited = false;
-const profane = () => {
-    profanityProhibited = !profanityProhibited;
-    socket.emit('cmd', {
-        command: 'profane',
-        status: profanityProhibited,
-        passwd: saltedPassword
-    });
-};
-
 const clearImg = () => {
     socket.emit('cmd', {
         command: 'image',
@@ -102,30 +94,42 @@ const flipFilterForce = () => {
 };
 
 let filterList = [];
+let whitelist = [];
 
 const filterToggleForce = id => {
-    //console.log(id);
+    filterList[id].force = !filterList[id].force;
     socket.emit('cmd', {
         command: 'modifyFilter',
         id,
         property: 'force',
-        value: !filterList[id].force,
+        value: filterList[id].force,
         passwd: saltedPassword
     });
-    filterList[id].force = !filterList[id].force;
     document.getElementsByClassName('filter-force')[id].innerHTML = filterList[id].force ? 'Y' : 'N';
 };
 
 const filterToggleActivate = id => {
-  socket.emit('cmd', {
+    filterList[id].filter = !filterList[id].filter;
+    socket.emit('cmd', {
       command: 'modifyFilter',
       id,
       property: 'activate',
-      value: !filterList[id].filter,
+      value: filterList[id].filter,
       passwd: saltedPassword
   });
-  filterList[id].filter = !filterList[id].filter;
   document.getElementsByClassName('filter-activate')[id].innerHTML = (filterList[id].filter ? 'DE' : '') + 'ACTIVATE';
+};
+
+const whitelistToggleActivate = id  => {
+    whitelist[id].activate = !whitelist[id].activate;
+    socket.emit('cmd', {
+        command: 'modifyWhitelist',
+        id,
+        property: 'activate',
+        value: whitelist[id].activate,
+        passwd: saltedPassword
+    });
+    document.getElementsByClassName('whitelist-activate')[id].innerHTML = whitelist[id].activate ? 'DEACTIVATE' : 'ACTIVATE';
 };
 
 let filterListDivContent = '';
@@ -133,10 +137,22 @@ socket.on('filterList', list => {
     filterList = list;
     for (let i = 0; i < list.length; i ++) {
         let item = list[i];
-        filterListDivContent += `CONTENT: '${item.content}'; TYPE: '${item.type}'; FORCE: <button class="filter-force" onclick="filterToggleForce(${i})">${item.force ? 'Y' : 'N'}</button>ACTIVATED: <button class="filter-activate" onclick="filterToggleActivate(${i})">${item.filter ? 'DEACTIVATE' : 'ACTIVATE'}</button><br/>`
+        filterListDivContent += `CONTENT: '${item.content}'; TYPE: '${item.type}'; FORCE: <button class="filter-force" onclick="filterToggleForce(${i})">${item.force ? 'Y' : 'N'}</button> <button class="filter-activate" onclick="filterToggleActivate(${i})">${item.filter ? 'DEACTIVATE' : 'ACTIVATE'}</button><br/>`;
     }
     document.querySelector('#filter-list').innerHTML = filterListDivContent;
     filterListDivContent = '';
+});
+
+let whitelistDivContent = '';
+socket.on('whitelist', list => {
+    whitelist = list;
+    for (let i = 0; i < list.length; i ++) {
+        let item = list[i];
+        whitelistDivContent += `CONTENT: '${item.content}'; 
+            <button class="whitelist-activate" onclick="whitelistToggleActivate(${i})">${item.activate ? 'DEACTIVATE' : 'ACTIVATE'}</button><br/>`;
+    }
+    document.querySelector('#whitelist').innerHTML = whitelistDivContent;
+    whitelistDivContent = '';
 });
 
 const filterSubmit = () => {
@@ -147,6 +163,15 @@ const filterSubmit = () => {
         content,
         type,
         force: filterForce,
+        passwd: saltedPassword
+    });
+};
+
+const whitelistSubmit = () => {
+    let content = document.querySelector('#whitelist-content').value;
+    socket.emit('cmd', {
+        command: 'newWhitelist',
+        content,
         passwd: saltedPassword
     });
 };

@@ -36,8 +36,10 @@ const publicDir = __dirname + '/public/';
 const io = require('socket.io')(http);
 
 const jsonfile = require('jsonfile');
+// for stylizing console output
 const chalk = require('chalk');
 
+// you may have to create one yourself
 const logFile = './log.json';
 let filterList = require('./filter.json').blacklist,
     whitelist  = require('./filter.json').whitelist;
@@ -90,8 +92,6 @@ const randomLove = () => {
     return loveEmojis[Math.floor(Math.random() * loveEmojis.length)];
 };
 
-let profaneProhibited = false;
-
 // catches connection from /display, then catches io from clients.
 // this means if display refreshes, clients must refresh to establish a new connection.
 io.of('/display').on('connection', socket => {
@@ -101,6 +101,7 @@ io.of('/display').on('connection', socket => {
         usersOnline ++;
         console.log(chalk.gray(`a client connected, current users online: ${usersOnline}`));
         client.on('up', data => {
+            // client upload length restriction
             if (data.content !== '' && data.content.length <= 64) {
                 let approved = true,
                     locked = false;
@@ -109,10 +110,13 @@ io.of('/display').on('connection', socket => {
                         locked = true;
                         console.log(chalk.green(`[APPROVED BY WHITELIST] ${data.content}`));
                         break;
+                        // will auto approve bullets whose content is included by whitelist
+                        // **unless** blacklist listed it 'force' filter
                     }
                 }
                 for (let i = 0; i < filterList.length; i ++) {
                     if (data.content.toLowerCase().includes(filterList[i].content) && filterList[i].filter && (filterList[i].force || !locked)) {
+                        // init filter status
                         approved = false;
                         locked = false;
                         console.log(chalk.red(`[FILTERED: '${filterList[i].type}'] ${data.content}`));
@@ -123,7 +127,8 @@ io.of('/display').on('connection', socket => {
                     console.log(data.content);
                 }
                 if (/^\S\S*\s*(loves?|爱|愛|喜欢|likes?|❤️💘💕💘💕💘💕💘💕)(?!(\s|-)?live)\s*\S*\S$/ui.test(data.content) || /^表白/u.test(data.content)) {
-                    /*
+                    /*  listen, maintainer(s):
+                        be cool. learn regex.
                         love/loves/loved, but not lovelive
                         matches: I love you, Van loves Billy
                         not a match: lovelive, I watch lovelive every day
@@ -137,6 +142,7 @@ io.of('/display').on('connection', socket => {
                     socket.emit('bullet', data);
                 } else {
                     logToFile({content: data.content, time: timestamp(), from: 'client', filtered: true});
+                    // bullet thrown away
                 }
                 approved = true;
                 locked = false;
@@ -162,6 +168,11 @@ io.of('/display').on('connection', socket => {
             if (data.passwd === passwords.admin) {
                 // only approve authed admins
                 switch (data.command) {
+                    //  when admin submits commands, they use websocket to send an object
+                    // whose format is {command: 'xx', data: ..., ..., passwd: ...}
+                    // here we detect their command property.
+                    // ref: admin.js
+
                     case 'bullet':
                         console.log(chalk.yellow(data.content));
                         logToFile({content: data.content, time: timestamp(), from: 'admin'});
@@ -174,16 +185,19 @@ io.of('/display').on('connection', socket => {
                         }
                         socket.emit('bullet', data);
                         break;
+
                     case 'refresh':
                         console.log(chalk.bgYellow.black('REFRESH COMMAND RECEIVED'));
                         logToFile({command: '**ADMIN REQUEST DISPLAY RELOAD**', time:timestamp()});
                         socket.emit('refresh', data);
                         break;
+
                     case 'image':
                         console.log(chalk.bgGreen.white('BG IMAGE COMMAND RECEIVED, FILENAME: ' + data.filename));
                         logToFile({command: `**ADMIN REQUEST IMAGE DISP: ${data.filename ? data.filename : 'CLEAR'}**`});
                         socket.emit('image', data);
                         break;
+
                     case 'newFilter':
                         console.log(chalk.bgRed.white(`NEW FILTER RECEIVED, CONTENT: ${data.content}, TYPE: ${data.type}, FORCE: ${data.force}`));
                         logToFile({command: `ADMIN APPLY NEW FILTER, CONTENT: ${data.content}, TYPE: ${data.type}, FORCE: ${data.force}`});
@@ -192,29 +206,52 @@ io.of('/display').on('connection', socket => {
                         tempList.blacklist[tempList.blacklist.length] = tempData;
                         jsonfile.writeFile('./filter.json', tempList);
                         break;
-                        // BUG ZONE
+
                     case 'modifyFilter':
                         let anotherTempList = require('./filter.json');
+                        // scheme: modify a temp array first, then apply to filter file
+
                         switch (data.property) {
                             case 'force':
                                 anotherTempList.blacklist[data.id].force = data.value;
                                 console.log(chalk.bgRed.white(`FILTER MODIFICATION RECEIVED, ID #${data.id} (CONTENT: ${filterList[data.id].content}) PROPERTY FORCE TO ${data.value ? 'TRUE' : 'FALSE'}`));
-                                logToFile({command: `ADMIN MODIFY ID #${data.id} (CONTENT: ${filterList[data.id].content}) PROPERTY FORCE TO ${data.value ? 'TRUE' : 'FALSE'}`});
+                                logToFile({command: `ADMIN MODIFY BL ID #${data.id} (CONTENT: ${filterList[data.id].content}) PROPERTY FORCE TO ${data.value ? 'TRUE' : 'FALSE'}`});
                                 break;
+
                             case 'activate':
                                 anotherTempList.blacklist[data.id].filter = data.value;
                                 console.log(chalk.bgRed.white(`FILTER MODIFICATION RECEIVED, ID #${data.id} (CONTENT: ${filterList[data.id].content}) PROPERTY FILTER TO ${data.value ? 'TRUE' : 'FALSE'}`))
-                                logToFile({command: `ADMIN MODIFY ID #${data.id} (CONTENT: ${filterList[data.id].content}) PROPERTY FILTER TO ${data.value ? 'TRUE' : 'FALSE'}`});
+                                logToFile({command: `ADMIN MODIFY BL ID #${data.id} (CONTENT: ${filterList[data.id].content}) PROPERTY FILTER TO ${data.value ? 'TRUE' : 'FALSE'}`});
                                 break;
                         }
                         jsonfile.writeFile('./filter.json', anotherTempList);
-                        // END BUG ZONE
 
+                    case 'newWhitelist':
+                        console.log(chalk.bgGreen.white(`NEW WHITELIST RECEIVED, CONTENT: ${data.content}`));
+                        logToFile({command: `ADMIN APPLY NEW WHITELIST, CONTENT: ${data.content}`});
+                        let tempListForWl = require('./filter.json');
+                        let tempDataForWl = {content: data.content, activate: true};
+                        tempListForWl.whitelist[tempListForWl.whitelist.length] = tempDataForWl;
+                        jsonfile.writeFile('./filter.json', tempListForWl);
+                        break;
+
+                    case 'modifyWhitelist':
+                        let tempWhitelist = require('./filter.json');
+
+                        switch (data.property) {
+                            case 'activate':
+                                tempWhitelist.whitelist[data.id].activate = data.value;
+                                console.log(chalk.bgGreen.white(`WHITELIST MODIFICATION RECEIVED, ID #${data.id} (CONTENT: ${whitelist[data.id].content}) PROPERTY ACTIVATE TO ${data.value ? 'TRUE' : 'FALSE'}`));
+                                logToFile({command: `ADMIN MODIFY WL ID #${data.id} (CONTENT: ${whitelist[data.id].content}) PROPERTY ACTIVATE TO ${data.value ? 'TRUE' : 'FALSE'}`});
+                                break;
+                        }
+                        jsonfile.writeFile('./filter.json', tempWhitelist);
                 }
 
             } else console.warn(chalk.bgWhite.black('Failed Admin Access Attempt'));
         });
 
+        // admin will receive and display
         let osStatus = () => {
             let mem    = os.freemem();
             let byte   = mem%1024;
@@ -236,6 +273,7 @@ io.of('/display').on('connection', socket => {
 
         let sendFilter = () => {
             admin.emit('filterList', filterList);
+            admin.emit('whitelist', whitelist);
         };
         setInterval(sendFilter, 5000);
     });
@@ -243,4 +281,5 @@ io.of('/display').on('connection', socket => {
 
 http.listen(2019, () => {
     console.log(chalk.bgWhite.black('running on port 2019'));
+    // good luck.
 });

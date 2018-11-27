@@ -28,7 +28,7 @@
     <button onclick="fillBulletText('dispURL')">DISP URL</button>
     <button onclick="fillBulletText('noFlooding')">NO FLOOD</button>
     <button onclick="fillBulletText('happyNewYear')">HNY</button>
-    <button id="profane" onclick="profane()">PROFANE</button>
+    <button onclick="fillBulletText('adminQuote')">ADMIN QUOTE</button>
     <br/><br/>
     -------------- BACKGROUND IMAGE --------------<br/>
     <input id="filename" autocomplete="on"/>
@@ -42,8 +42,13 @@
     <input id="filter-content"/>
     <input id="filter-type"/><br/>
     <button id="filter-force" onclick="flipFilterForce()">FORCE: N</button>
-    <button id="filter-submit" onclick="filterSubmit()">SUBMIT</button>
+    <button id="filter-submit" onclick="filterSubmit()">SUBMIT</button><br/>
     <div id="filter-list">
+
+    </div>
+    <input id="whitelist-content"/>
+    <button id="whitelist-submit" onclick="whitelistSubmit()">SUBMIT</button><br/>
+    <div id="whitelist">
 
     </div>
 
