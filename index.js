@@ -126,7 +126,7 @@ io.of('/display').on('connection', socket => {
                 if (approved && !locked) {
                     console.log(data.content);
                 }
-                if (/^\S\S*\s*(loves?|爱|愛|喜欢|likes?|❤️💘💕💘💕💘💕💘💕)(?!(\s|-)?live)\s*\S*\S$/ui.test(data.content) || /^表白/u.test(data.content)) {
+                if (/^\S\S*\s*(loves?|爱|愛|喜欢|likes?|❤️|💘|💕)(?!(\s|-)?live)\s*\S*\S$/ui.test(data.content) || /^表白/u.test(data.content)) {
                     /*  listen, maintainer(s):
                         be cool. learn regex.
                         love/loves/loved, but not lovelive
