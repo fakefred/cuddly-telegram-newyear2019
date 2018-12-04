@@ -4,7 +4,7 @@ Hello. I am ID @fakefred from 2104, EFZ. You are unknown from unknown, EFZ.
 You can find me, of course, and brag about how crappy my code is.
 You can bloat, you have won 2 NOI champions, you built a bot the other day.
 
-You can find me, I will be the one with Twenty One Pilots decals on my laptop.
+You can find me, I will be the one with Twenty Øne Piløts decals on my laptop.
 You can find me, I will be the one who has various posters on his dorm wall.
 
 I am pleased to know you are willing to maintain this code.
@@ -31,3 +31,11 @@ and you will attend a ~~assassination~~ meeting. That marks the beginning of CCA
 People will ask you to do some real stuff, e.g. ~~miscellaneous assistance~~ a lottery system.
 
 Okay, I might not have told this much - spoilers are not fun.
+
+## II
+### --How this ~~crap~~ works
+This project uses socket.io to send data flow. Mind that, socket.io is not compatible with stock websocket (cite: socket.io docs)
+Client ===[bullet dataflow]===> Server ===[manipulated bullet dataflow]===> Display
+Admin ===[bullet dataflow]===> Server ===[a little bit manipulated dataflow]===> Display
+Server ===[server status; blacklist and whitelist]===with an interval===> Admin
+Admin ===[blacklist and whitelist]===> Server
