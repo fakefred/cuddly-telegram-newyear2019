@@ -35,7 +35,11 @@ Okay, I might not have told this much - spoilers are not fun.
 ## II
 ### --How this ~~crap~~ works
 This project uses socket.io to send data flow. Mind that, socket.io is not compatible with stock websocket (cite: socket.io docs)
-Client ===[bullet dataflow]===> Server ===[manipulated bullet dataflow]===> Display
-Admin ===[bullet dataflow]===> Server ===[a little bit manipulated dataflow]===> Display
-Server ===[server status; blacklist and whitelist]===with an interval===> Admin
-Admin ===[blacklist and whitelist]===> Server
+Client ===[bullet dataflow]===> Server ===[manipulated bullet dataflow]===> Display  
+Admin ===[bullet dataflow]===> Server ===[a little bit manipulated dataflow]===> Display  
+Server ===[server status; blacklist and whitelist]===with an interval===> Admin  
+Admin ===[blacklist and whitelist]===> Server  
+
+Bet you have at least a little basis on danmaku system. In this entire codebase, 
+'dan', 'danmaku' and 'bullet' all refer to the same object. 
+I have made maintenance as easy as possible by using intuitiveVariableNames and also intuitive-class-and-id-names.
