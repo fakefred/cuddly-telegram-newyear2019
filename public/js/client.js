@@ -69,7 +69,8 @@ function send() {
         color,
         position,
         size,
-        from: 'client'
+        from: 'client',
+        handled: false
     });
     inputBar.value = '';
     inputBar.placeholder = placeholderText[Math.floor(Math.random() * placeholderText.length)];
@@ -81,6 +82,7 @@ document.getElementById('dark').className = 'dark-light';
 let toggleDark = function () {
     dark = !dark;
     // TODO: use document fragment to replace this function
+    // Hell, forget about this crap. Document frags are not practical in this project.
     if (dark) {
         document.getElementById('banner').src = 'img/2019_KEY_HSEFZ_DARK.png';
         document.getElementsByTagName('body')[0].className = 'body-dark';
