@@ -86,12 +86,6 @@ app.get('/admin', (req, res) => {
     res.sendFile(publicDir + 'admin.html');
 });
 
-//contains a lot of unicode (of hearts)
-const loveEmojis = ['❤', '💘', '💕', '💗', '💖', '💙', '💚', '💛', '🧡', '💜', '🖤', '💓'];
-const randomLove = () => {
-    return loveEmojis[Math.floor(Math.random() * loveEmojis.length)];
-};
-
 // catches connection from /display, then catches io from clients.
 // this means if display refreshes, clients must refresh to establish a new connection.
 io.of('/display').on('connection', socket => {
@@ -102,51 +96,41 @@ io.of('/display').on('connection', socket => {
         console.log(chalk.gray(`a client connected, current users online: ${usersOnline}`));
         client.on('up', data => {
             // client upload length restriction
-            if (data.content !== '' && data.content.length <= 64) {
-                let approved = true,
-                    locked = false;
-                for (let j = 0; j < whitelist.length; j ++) {
-                    if (whitelist[j].activate && data.content.toLowerCase().includes(whitelist[j].content)) {
-                        locked = true;
-                        console.log(chalk.green(`[APPROVED BY WHITELIST] ${data.content}`));
-                        break;
-                        // will auto approve bullets whose content is included by whitelist
-                        // **unless** blacklist listed it 'force' filter
-                    }
-                }
-                for (let i = 0; i < filterList.length; i ++) {
-                    if (data.content.toLowerCase().includes(filterList[i].content) && filterList[i].filter && (filterList[i].force || !locked)) {
-                        // init filter status
-                        approved = false;
+            if (data.content !== '' && data.content.length <= 64 && data.handled === false) {
+                    let approved = true,
                         locked = false;
-                        console.log(chalk.red(`[FILTERED: '${filterList[i].type}'] ${data.content}`));
-                        break;
+                    for (let j = 0; j < whitelist.length; j++) {
+                        if (whitelist[j].activate && data.content.toLowerCase().includes(whitelist[j].content)) {
+                            locked = true;
+                            console.log(chalk.green(`[APPROVED BY WHITELIST] ${data.content}`));
+                            break;
+                            // will auto approve bullets whose content is included by whitelist
+                            // **unless** blacklist listed it 'force' filter
+                        }
                     }
+                    for (let i = 0; i < filterList.length; i++) {
+                        if (data.content.toLowerCase().includes(filterList[i].content) && filterList[i].filter && (filterList[i].force || !locked)) {
+                            // init filter status
+                            approved = false;
+                            locked = false;
+                            console.log(chalk.red(`[FILTERED: '${filterList[i].type}'] ${data.content}`));
+                            break;
+                        }
+                    }
+                    if (approved && !locked) {
+                        console.log(data.content);
+                    }
+                    if (approved) {
+                        logToFile({content: data.content, time: timestamp(), from: 'client', filtered: false});
+                        socket.emit('bullet', data);
+                    } else {
+                        logToFile({content: data.content, time: timestamp(), from: 'client', filtered: true});
+                        // bullet thrown away
+                    }
+                    approved = true;
+                    locked = false;
+                    setTimeout(() => {data.handled = true}, 1); // messy workaround as of near the end of december
                 }
-                if (approved && !locked) {
-                    console.log(data.content);
-                }
-                if (/^\S\S*\s*(loves?|爱|愛|喜欢|likes?|❤️💘💕💘💕💘💕💘💕)(?!(\s|-)?live)\s*\S*\S$/ui.test(data.content) || /^表白/u.test(data.content)) {
-                    /*  listen, maintainer(s):
-                        be cool. learn regex.
-                        love/loves/loved, but not lovelive
-                        matches: I love you, Van loves Billy
-                        not a match: lovelive, I watch lovelive every day
-                     */
-                    console.log(chalk.magenta(data.content));
-                    data.content = randomLove() + data.content + randomLove();
-                    console.log(chalk.bgMagenta('special effect added'));
-                }
-                if (approved) {
-                    logToFile({content: data.content, time: timestamp(), from: 'client', filtered: false});
-                    socket.emit('bullet', data);
-                } else {
-                    logToFile({content: data.content, time: timestamp(), from: 'client', filtered: true});
-                    // bullet thrown away
-                }
-                approved = true;
-                locked = false;
-            }
         });
         client.on('disconnect', () => {
             usersOnline --;

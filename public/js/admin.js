@@ -158,20 +158,24 @@ socket.on('whitelist', list => {
 const filterSubmit = () => {
     let content = document.querySelector('#filter-content').value,
         type = document.querySelector('#filter-type').value;
-    socket.emit('cmd', {
-        command: 'newFilter',
-        content,
-        type,
-        force: filterForce,
-        passwd: saltedPassword
-    });
+    if (content && type) {
+        socket.emit('cmd', {
+            command: 'newFilter',
+            content,
+            type,
+            force: filterForce,
+            passwd: saltedPassword
+        });
+    }
 };
 
 const whitelistSubmit = () => {
     let content = document.querySelector('#whitelist-content').value;
-    socket.emit('cmd', {
-        command: 'newWhitelist',
-        content,
-        passwd: saltedPassword
-    });
+    if (content) {
+        socket.emit('cmd', {
+            command: 'newWhitelist',
+            content,
+            passwd: saltedPassword
+        });
+    }
 };
