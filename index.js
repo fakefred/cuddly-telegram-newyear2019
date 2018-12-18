@@ -91,12 +91,13 @@ app.get('/admin', (req, res) => {
 io.of('/display').on('connection', socket => {
     let usersOnline = 0;
     console.log(chalk.gray('display connected'));
+
     io.of('/').on('connection', client => {
         usersOnline ++;
         console.log(chalk.gray(`a client connected, current users online: ${usersOnline}`));
         client.on('up', data => {
             // client upload length restriction
-            if (data.content !== '' && data.content.length <= 64 && data.handled === false) {
+            if (data.content !== '' && data.content.length <= 64) {
                     let approved = true,
                         locked = false;
                     for (let j = 0; j < whitelist.length; j++) {
@@ -121,22 +122,29 @@ io.of('/display').on('connection', socket => {
                         console.log(data.content);
                     }
                     if (approved) {
-                        logToFile({content: data.content, time: timestamp(), from: 'client', filtered: false});
+                        if (data.handled === false) {
+                            logToFile({content: data.content, time: timestamp(), from: 'client', filtered: false});
+                            data.handled = true;
+                        }
                         socket.emit('bullet', data);
                     } else {
-                        logToFile({content: data.content, time: timestamp(), from: 'client', filtered: true});
                         // bullet thrown away
+                        logToFile({content: data.content, time: timestamp(), from: 'client', filtered: true});
+                        //setTimeout(() => {data.handled = true}, 1); // messy workaround as of near the end of december
                     }
-                    approved = true;
-                    locked = false;
-                    setTimeout(() => {data.handled = true}, 1); // messy workaround as of near the end of december
-                }
+                approved = true;
+                locked = false;
+            }
         });
         client.on('disconnect', () => {
             usersOnline --;
             console.log(chalk.gray(`a client disconnected, current users online: ${usersOnline}`));
         });
     });
+
+    const emit = data => {
+        socket.emit('bullet', data);
+    };
 
     io.of('/debug').on('connection', debug => {
         debug.on('up', data => {

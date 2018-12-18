@@ -129,5 +129,4 @@ const randomDataset = () => {
     posRadios[posRand].checked = true;
     colRadios[colRand].checked = true;
     sizRadios[sizRand].checked = true;
-    console.log(position, color, size);
 };

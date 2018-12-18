@@ -7,8 +7,8 @@ body.style.backgroundSize = 'cover';
 
 let windowWidth= window.innerWidth;
 let windowHeight = window.innerHeight;
-canvas.width = windowWidth * 0.96;
-canvas.height = windowHeight * 0.96;
+canvas.width = windowWidth * 0.98;
+canvas.height = windowHeight * 0.97;
 
 let ctx = canvas.getContext('2d');
 // default: medium, white
@@ -25,8 +25,8 @@ let bullets = [];
 let startFrom = 0;
 
 socket.on('bullet', data => {
-    console.log(data);
-    if (data.from === 'debug') console.log(bullets.length);
+    //console.log(data);
+    if (data.from === 'debug') console.log(data + '\n' + bullets.length);
     bullets[bullets.length] = {
         content: data.content,
         width: ctx.measureText(data.content).width,
