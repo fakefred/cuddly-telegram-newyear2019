@@ -1,3 +1,4 @@
+> I over-estimated the normal people-Republicans ratio in our school, which caused the death of this project seven days before art fest. Messengers are not to be shot.
 # cuddly-telegram-newyear2019
 ## How to run test?
 * Install Node.js and npm or yarn
